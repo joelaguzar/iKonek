@@ -23,9 +23,8 @@ public class Database {
             this.dbUsername = prop.getProperty("db.username");
             this.dbPassword = prop.getProperty("db.password");
         } catch (IOException ex) {
-            // Handle the exception more robustly (e.g., log and throw):
             System.err.println("Error loading database properties: " + ex.getMessage());
-            throw new RuntimeException("Failed to load database properties", ex); // Or a custom exception type
+            throw new RuntimeException("Failed to load database properties", ex);
         }
     }
 
@@ -34,8 +33,8 @@ public class Database {
             Class.forName("com.mysql.cj.jdbc.Driver");
             return DriverManager.getConnection(dbUrl, dbUsername, dbPassword);
         } catch (ClassNotFoundException e) {
-            System.err.println("MySQL JDBC Driver not found: " + e.getMessage()); // Log the error
-            throw new RuntimeException("MySQL JDBC Driver not found", e); //  And re-throw to be handled higher up.
+            System.err.println("MySQL JDBC Driver not found: " + e.getMessage());
+            throw new RuntimeException("MySQL JDBC Driver not found", e);
         }
 
     }
@@ -59,5 +58,4 @@ public class Database {
         }
     }
 
-    // ... other methods ...
 }
