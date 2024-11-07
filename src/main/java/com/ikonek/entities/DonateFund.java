@@ -1,4 +1,4 @@
 package com.ikonek.entities;
 
-public class FundDonation {
+public class Donation {
 }
