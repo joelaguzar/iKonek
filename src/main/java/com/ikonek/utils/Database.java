@@ -12,7 +12,6 @@ public class Database {
 
     public Database() {
         loadDbProperties();
-        test();
     }
 
     private void loadDbProperties() {
@@ -36,26 +35,5 @@ public class Database {
             System.err.println("MySQL JDBC Driver not found: " + e.getMessage());
             throw new RuntimeException("MySQL JDBC Driver not found", e);
         }
-
     }
-
-    // for dbms sample testing
-    public void test(){
-        try{
-            Statement statement = getConnection().createStatement();
-            ResultSet resultSet = statement.executeQuery("SELECT * FROM HOSPITALS");
-
-            while(resultSet.next()){
-                System.out.println(resultSet.getString("hospital_id"));
-                System.out.println(resultSet.getString("hospital_add_line1"));
-                System.out.println(resultSet.getString("hospital_city"));
-                System.out.println(resultSet.getString("hospital_province"));
-                System.out.println(resultSet.getString("hospital_region"));
-                System.out.println(resultSet.getString("hospital_contact_number"));
-            }
-        }catch(SQLException e){
-            e.printStackTrace();
-        }
-    }
-
 }
