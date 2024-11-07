@@ -2,7 +2,7 @@ package com.ikonek.utils;
 
 public class PasswordHashing {
     // NOTE: this algo is just for demo and could impose security threats
-    private static final String SECRET_KEY = "my_secret_key"; // just for demo, replace with complex one
+    private static final String SECRET_KEY = "my_secret_key@013579"; // just for demo, replace with complex one
 
     public String hashPassword(String password) {
         if (password == null || password.isEmpty()) {
