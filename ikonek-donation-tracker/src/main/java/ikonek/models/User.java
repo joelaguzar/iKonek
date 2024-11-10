@@ -1,6 +1,7 @@
 package ikonek.models;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 public class User {
     private int userId;
@@ -14,7 +15,7 @@ public class User {
     private String bloodType;
     private double weight;
     private String contactNumber;
-    private final LocalDate registrationDate;
+    private LocalDate registrationDate;
 
     // Constructor
     public User(String firstName, String middleName, String lastName, String gender, LocalDate birthDate, String email, String passwordHash, String bloodType, double weight, String contactNumber) {
@@ -29,6 +30,10 @@ public class User {
         this.weight = weight;
         this.contactNumber = contactNumber;
         this.registrationDate = LocalDate.now(); // Set registration date to current date
+    }
+
+    // admin inherits common user fields
+    public User(String firstName, String middleName, String lastName, String email, String passwordHash, String contactNumber) {
     }
 
 
@@ -125,6 +130,9 @@ public class User {
         return registrationDate;
     }
 
+    public void setRegistrationDate(LocalDateTime registrationDate) {
+        this.registrationDate = LocalDate.from(registrationDate);
+    }
 
     @Override
     public String toString() { // For easier printing/debugging

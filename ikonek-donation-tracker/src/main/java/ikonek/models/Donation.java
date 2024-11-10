@@ -3,18 +3,18 @@ package ikonek.models;
 import java.time.LocalDateTime;
 
 public class Donation {
-    private int donationId;
-    private int donorId;
-    private int fundraisingId;
-    private double donationAmount;  // Using double
-    private LocalDateTime donationDate;
+    private int donationId;           // Unique identifier for each donation
+    private int donorId;              // ID of the donor (foreign key from Users)
+    private int fundraisingId;        // ID of the fundraising initiative (foreign key from FundraisingInitiatives)
+    private double donationAmount; // Amount donated
+    private LocalDateTime donationDate; // Date and time of the donation
 
     // Constructor
     public Donation(int donorId, int fundraisingId, double donationAmount) {
         this.donorId = donorId;
         this.fundraisingId = fundraisingId;
         this.donationAmount = donationAmount;
-        this.donationDate = LocalDateTime.now();
+        this.donationDate = LocalDateTime.now(); // Default to current timestamp
     }
 
     // Getters and Setters
@@ -49,24 +49,14 @@ public class Donation {
     public void setDonationAmount(double donationAmount) {
         this.donationAmount = donationAmount;
     }
-
-    public LocalDateTime getDonationDate() {
-        return donationDate;
-    }
-
-    public void setDonationDate(LocalDateTime donationDate) {
-        this.donationDate = donationDate;
-    }
-
-
     @Override
     public String toString() {
         return "Donation{" +
                 "donationId=" + donationId +
-                ", donorId=" + donorId +
-                ", fundraisingId=" + fundraisingId +
-                ", donationAmount=" + donationAmount +
-                ", donationDate=" + donationDate +
+                "donorId=" + donorId +
+                "fundraisingId=" + fundraisingId +
+                "donationAmount=" + donationAmount +
+                "donationDate=" + donationDate +
                 '}';
     }
 }
