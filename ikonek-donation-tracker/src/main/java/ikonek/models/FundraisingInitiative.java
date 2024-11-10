@@ -3,7 +3,7 @@ package ikonek.models;
 import java.time.LocalDate;
 
 public class FundraisingInitiative {
-    private int initiativeId;
+    private int fundraisingId;
     private int userId;
     private String cause;
     private double targetAmount;       // Using double
@@ -12,7 +12,7 @@ public class FundraisingInitiative {
     private LocalDate deadline;
 
     // Constructor
-    public FundraisingInitiative(int userId, String cause, double targetAmount, String shortDescription, LocalDate deadline) {
+    public FundraisingInitiative(int userId, String cause, double targetAmount, double amountReceived, String shortDescription, LocalDate deadline) {
         this.userId = userId;
         this.cause = cause;
         this.targetAmount = targetAmount;
@@ -22,12 +22,12 @@ public class FundraisingInitiative {
     }
 
     // Getters and Setters
-    public int getInitiativeId() {
-        return initiativeId;
+    public int getFundraisingId() {
+        return fundraisingId;
     }
 
-    public void setInitiativeId(int initiativeId) {
-        this.initiativeId = initiativeId;
+    public void setFundraisingId(int fundraisingId) {
+        this.fundraisingId = fundraisingId;
     }
 
     public int getUserId() {
@@ -81,7 +81,7 @@ public class FundraisingInitiative {
     @Override
     public String toString() {
         return "FundraisingInitiative{" +
-                "initiativeId=" + initiativeId +
+                "initiativeId=" + fundraisingId +
                 ", userId=" + userId +
                 ", cause='" + cause + '\'' +
                 ", targetAmount=" + targetAmount +
