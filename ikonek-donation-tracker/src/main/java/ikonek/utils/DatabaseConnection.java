@@ -24,40 +24,51 @@ public class DatabaseConnection {
     }
 
     // Establish the database connection using the loaded properties
-    public static Connection getConnection() {
-        if (connection == null) {
-            try {
-                Properties properties = loadProperties();
-                String url = properties.getProperty("db.url");
-                String user = properties.getProperty("db.user");
-                String password = properties.getProperty("db.password");
-                String driver = properties.getProperty("db.driver");
+    public static Connection getConnection() throws SQLException, IOException, ClassNotFoundException {
+        Properties properties = loadProperties();
+        String url = properties.getProperty("db.url");
+        String user = properties.getProperty("db.user");
+        String password = properties.getProperty("db.password");
+        String driver = properties.getProperty("db.driver");
 
-                Class.forName(driver); // Load the database driver
-
-                connection = DriverManager.getConnection(url, user, password);
-                System.out.println("Database connection established successfully.");
-            } catch (SQLException e) {
-                System.err.println("Database connection error: " + e.getMessage());
-            } catch (IOException e) {
-                System.err.println("Error loading database properties: " + e.getMessage());
-            } catch (ClassNotFoundException e) {  // Handles ClassNotFoundException if driver not found
-                System.err.println("Database driver not found: " + e.getMessage());
-            }
-        }
-        return connection;
+        Class.forName(driver);
+        return DriverManager.getConnection(url, user, password);
     }
+
+//    public static Connection getConnection() {
+//        if (connection == null) {
+//            try {
+//                Properties properties = loadProperties();
+//                String url = properties.getProperty("db.url");
+//                String user = properties.getProperty("db.user");
+//                String password = properties.getProperty("db.password");
+//                String driver = properties.getProperty("db.driver");
+//
+//                Class.forName(driver); // Load the database driver
+//
+//                connection = DriverManager.getConnection(url, user, password);
+//                System.out.println("Database connection established successfully.");
+//            } catch (SQLException e) {
+//                System.err.println("Database connection error: " + e.getMessage());
+//            } catch (IOException e) {
+//                System.err.println("Error loading database properties: " + e.getMessage());
+//            } catch (ClassNotFoundException e) {  // Handles ClassNotFoundException if driver not found
+//               System.err.println("Database driver not found: " + e.getMessage());
+//            }
+//        }
+//        return connection;
+//    }
 
     // Close the database connection
-    public static void closeConnection() {
-        if (connection != null) {
-            try {
-                connection.close();
-                connection = null;
-                System.out.println("Database connection closed successfully.");
-            } catch (SQLException e) {
-                System.err.println("Error closing database connection: " + e.getMessage());
-            }
-        }
-    }
+//    public static void closeConnection() {
+//        if (connection != null) {
+//            try {
+//                connection.close();
+//                connection = null;
+//                System.out.println("Database connection closed successfully.");
+//            } catch (SQLException e) {
+//                System.err.println("Error closing database connection: " + e.getMessage());
+//            }
+//        }
+//    }
 }
