@@ -1,5 +1,7 @@
 package ikonek.models;
 
+import ikonek.exceptions.MonetaryDonationServiceException;
+
 import java.time.LocalDateTime;
 
 public interface Donation {
@@ -7,5 +9,5 @@ public interface Donation {
     void setDonationId(int donationId);
     int getDonorId();
     LocalDateTime getDonationDate();
-    void processDonation();
+    void processDonation() throws MonetaryDonationServiceException;
 }
