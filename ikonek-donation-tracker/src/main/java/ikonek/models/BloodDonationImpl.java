@@ -3,26 +3,27 @@ package ikonek.models;
 import ikonek.exceptions.BloodDonationServiceException;
 import ikonek.services.HospitalService;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 public class BloodDonationImpl implements BloodDonation {
     private int donationId;
     private int userId;
     private int hospitalId;
-    private LocalDateTime donationDate;
+    private LocalDate donationDate;
     private String status;
     private String failureReason;
     private HospitalService hospitalService;
 
     // Constructor
-    public BloodDonationImpl(int userId, int hospitalId) {
+    public BloodDonationImpl(int userId, int hospitalId, LocalDate donationDate) {
         this.userId = userId;
         this.hospitalId = hospitalId;
-        this.donationDate = LocalDateTime.now(); // Set initial donation date and time
+        this.donationDate = donationDate;
         this.status = "Pending"; // Set initial status
     }
 
-    public void setDonationDate(LocalDateTime donationDate) {
+    public void setDonationDate(LocalDate donationDate) {
         this.donationDate = donationDate;
     }
     public void setHospitalService(HospitalService hospitalService) {
@@ -46,7 +47,7 @@ public class BloodDonationImpl implements BloodDonation {
 
     @Override
     public LocalDateTime getDonationDate() {
-        return donationDate;
+        return donationDate.atStartOfDay();
     }
 
     @Override

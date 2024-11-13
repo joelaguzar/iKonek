@@ -3,18 +3,24 @@ package ikonek.dao;
 import ikonek.models.User;
 import ikonek.utils.DatabaseConnection;
 
+import java.io.IOException;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class UserDao {
 
-    // Method to add a new user
-    public boolean addUser(User user) {
-        String query = "INSERT INTO Users (first_name, middle_name, last_name, gender, birth_date, email, password_hash, blood_type, weight, contact_number) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    private final String INSERT_USER = "INSERT INTO Users (first_name, middle_name, last_name, gender, birth_date, email, password_hash, blood_type, weight, contact_number) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    private final String SELECT_USER_BY_EMAIL = "SELECT * FROM Users WHERE email = ?";
+    private final String UPDATE_USER = "UPDATE Users SET first_name = ?, middle_name = ?, last_name = ?, gender = ?, birth_date = ?, password_hash = ?, blood_type = ?, weight = ?, contact_number = ? WHERE user_id = ?";
+    private final String SELECT_ALL_USERS = "SELECT * FROM Users";
+    private final String SELECT_USER_BY_ID = "SELECT * FROM Users WHERE user_id = ?";
+    private final String DELETE_USER = "DELETE FROM Users WHERE user_id = ?";
 
+
+    public User createUser(User user) {
         try (Connection conn = DatabaseConnection.getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(query)) {
+             PreparedStatement pstmt = conn.prepareStatement(INSERT_USER, Statement.RETURN_GENERATED_KEYS)) {
 
             pstmt.setString(1, user.getFirstName());
             pstmt.setString(2, user.getMiddleName());
@@ -27,14 +33,23 @@ public class UserDao {
             pstmt.setDouble(9, user.getWeight());
             pstmt.setString(10, user.getContactNumber());
 
-            return pstmt.executeUpdate() > 0;
-        } catch (SQLException e) {
-            System.err.println("Error adding user: " + e.getMessage());
-            return false;
+            int rowsAffected = pstmt.executeUpdate();
+            if (rowsAffected > 0) {
+                try (ResultSet generatedKeys = pstmt.getGeneratedKeys()) {
+                    if (generatedKeys.next()) {
+                        int userId = generatedKeys.getInt(1);
+                        user.setUserId(userId);
+                        return user; // Return the created User object with userId
+                    }
+                }
+            }
+        } catch (SQLException | IOException | ClassNotFoundException e) {
+            System.err.println("Error creating user: " + e.getMessage()); // Or use a logger
+            return null;
         }
+        return null;
     }
 
-    // Method to retrieve a user by their email
     public User getUserByEmail(String email) {
         String query = "SELECT * FROM Users WHERE email = ?";
 
@@ -49,12 +64,13 @@ public class UserDao {
             }
         } catch (SQLException e) {
             System.err.println("Error retrieving user by email: " + e.getMessage());
+        } catch (IOException | ClassNotFoundException e) {
+            throw new RuntimeException(e);
         }
         return null;
     }
 
-    // Method to update a user's information
-    public boolean updateUser(User user) {
+    public User updateUser(User user) {
         String query = "UPDATE Users SET first_name = ?, middle_name = ?, last_name = ?, gender = ?, birth_date = ?, password_hash = ?, blood_type = ?, weight = ?, contact_number = ? WHERE user_id = ?";
 
         try (Connection conn = DatabaseConnection.getConnection();
@@ -71,29 +87,16 @@ public class UserDao {
             pstmt.setString(9, user.getContactNumber());
             pstmt.setInt(10, user.getUserId());
 
-            return pstmt.executeUpdate() > 0;
-        } catch (SQLException e) {
+            int rowsUpdated = pstmt.executeUpdate();
+            if (rowsUpdated > 0) {
+                return getUserById(user.getUserId()); // Retrieve the updated User object
+            }
+        } catch (SQLException | IOException | ClassNotFoundException e) {
             System.err.println("Error updating user: " + e.getMessage());
-            return false;
         }
+        return null;
     }
 
-    // Method to delete a user by their ID
-    public boolean deleteUser(int userId) {
-        String query = "DELETE FROM Users WHERE user_id = ?";
-
-        try (Connection conn = DatabaseConnection.getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(query)) {
-
-            pstmt.setInt(1, userId);
-            return pstmt.executeUpdate() > 0;
-        } catch (SQLException e) {
-            System.err.println("Error deleting user: " + e.getMessage());
-            return false;
-        }
-    }
-
-    // Method to retrieve all users
     public List<User> getAllUsers() {
         List<User> users = new ArrayList<>();
         String query = "SELECT * FROM Users";
@@ -105,27 +108,56 @@ public class UserDao {
             while (rs.next()) {
                 users.add(mapToUser(rs));
             }
-        } catch (SQLException e) {
+        } catch (SQLException | IOException | ClassNotFoundException e) {
             System.err.println("Error retrieving all users: " + e.getMessage());
         }
         return users;
     }
 
-    // Helper method to map ResultSet to User object
+    public User getUserById(int userId) {
+        try (Connection conn = DatabaseConnection.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(SELECT_USER_BY_ID)) {
+
+            pstmt.setInt(1, userId); // Set the userId parameter
+            try (ResultSet rs = pstmt.executeQuery()) { // ResultSet within try-with-resources
+                if (rs.next()) {
+                    return mapToUser(rs);
+                }
+            }
+        } catch (SQLException | IOException | ClassNotFoundException e) {
+            System.err.println("Error retrieving user by ID: " + e.getMessage()); // Or use a logger
+        }
+        return null;
+    }
+
+    public boolean deleteUser(int userId) {
+        String query = "DELETE FROM Users WHERE user_id = ?";
+
+        try (Connection conn = DatabaseConnection.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(query)) {
+
+            pstmt.setInt(1, userId);
+            return pstmt.executeUpdate() > 0;
+        } catch (SQLException | IOException | ClassNotFoundException e) {
+            System.err.println("Error deleting user: " + e.getMessage());
+            return false;
+        }
+    }
+
     private User mapToUser(ResultSet rs) throws SQLException {
         User user = new User(
                 rs.getString("first_name"),
                 rs.getString("middle_name"),
                 rs.getString("last_name"),
+                rs.getString("gender"),
+                rs.getDate("birth_date").toLocalDate(),
                 rs.getString("email"),
                 rs.getString("password_hash"),
+                rs.getString("blood_type"),
+                rs.getDouble("weight"),
                 rs.getString("contact_number")
         );
         user.setUserId(rs.getInt("user_id"));
-        user.setGender(rs.getString("gender"));
-        user.setBirthDate(rs.getDate("birth_date").toLocalDate());
-        user.setBloodType(rs.getString("blood_type"));
-        user.setWeight(rs.getDouble("weight"));
         user.setRegistrationDate(rs.getTimestamp("registration_date").toLocalDateTime());
         return user;
     }

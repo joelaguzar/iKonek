@@ -28,6 +28,16 @@ public class MonetaryDonationImpl implements MonetaryDonation {
     }
 
     @Override
+    public String getFundraisingCause() throws MonetaryDonationServiceException {
+        if (fundraiserService == null) {
+            throw new MonetaryDonationServiceException("FundraiserService not injected.");
+        }
+
+        FundraisingInitiative initiative = fundraiserService.getFundraisingInitiativeById(fundraisingId);
+        return initiative != null ? initiative.getCause() : "Unknown Cause";
+    }
+
+    @Override
     public int getDonationId() {
         return donationId;
     }
@@ -44,7 +54,7 @@ public class MonetaryDonationImpl implements MonetaryDonation {
 
     @Override
     public LocalDateTime getDonationDate() {
-        return donationDate;
+        return donationDate.toLocalDate().atStartOfDay();
     }
 
     @Override
@@ -67,7 +77,6 @@ public class MonetaryDonationImpl implements MonetaryDonation {
         this.fundraisingId = fundraisingId;
     }
 
-
     @Override
     public void processDonation() throws MonetaryDonationServiceException {
         if (fundraiserService == null) {
@@ -75,20 +84,21 @@ public class MonetaryDonationImpl implements MonetaryDonation {
         }
 
         try {
-            // 1. Retrieve the FundraisingInitiative
+            // 1. Retrieve the FundraisingInitiative from the database
             FundraisingInitiative fundraisingInitiative = fundraiserService.getFundraisingInitiativeById(fundraisingId);
             if (fundraisingInitiative == null) {
                 throw new MonetaryDonationServiceException("Fundraising initiative not found.");
             }
 
             // 2. Update the fundraising initiative's amount received
-            double newAmountReceived = fundraisingInitiative.getAmountReceived() + donationAmount;
+            double currentAmountReceived = fundraisingInitiative.getAmountReceived();
+            double newAmountReceived = currentAmountReceived + donationAmount;
             fundraisingInitiative.setAmountReceived(newAmountReceived);
 
             // 3. Update the FundraisingInitiative in the database
-            fundraiserService.updateFundraisingInitiative(fundraisingInitiative);
-
-            // 4. (Optional) Send a confirmation email or notification to the donor
+//            if (!fundraiserService.updateFundraisingInitiative(fundraisingInitiative)) {
+//                throw new MonetaryDonationServiceException("Failed to update fundraising initiative.");
+//            }
 
         } catch (MonetaryDonationServiceException e) {
             System.err.println("Error processing monetary donation: " + e.getMessage()); // Or use a logger

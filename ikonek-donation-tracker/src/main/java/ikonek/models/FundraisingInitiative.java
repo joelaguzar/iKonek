@@ -16,9 +16,9 @@ public class FundraisingInitiative {
         this.userId = userId;
         this.cause = cause;
         this.targetAmount = targetAmount;
+        this.amountReceived = amountReceived; // Update the amountReceived value
         this.shortDescription = shortDescription;
         this.deadline = deadline;
-        this.amountReceived = 0.0;  // initialize amountReceived to 0.0
     }
 
     // Getters and Setters
@@ -59,7 +59,7 @@ public class FundraisingInitiative {
     }
 
     public void setAmountReceived(double amountReceived) {
-        this.amountReceived = amountReceived;
+        this.amountReceived  = amountReceived;
     }
 
     public String getShortDescription() {
