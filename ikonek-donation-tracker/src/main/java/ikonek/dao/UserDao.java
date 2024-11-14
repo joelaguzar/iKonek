@@ -70,6 +70,22 @@ public class UserDao {
         return null;
     }
 
+    public int getTotalRegisteredUsers() {
+        try (Connection conn = DatabaseConnection.getConnection();
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery("SELECT COUNT(*) FROM Users")) {
+
+            if (rs.next()) {
+                return rs.getInt(1);
+            }
+        } catch (SQLException | IOException | ClassNotFoundException e) {
+            System.err.println("Error getting total registered users: " + e.getMessage()); // Or use a logger
+
+        }
+        return -1; //Or throw an exception
+
+    }
+
     public User updateUser(User user) {
         String query = "UPDATE Users SET first_name = ?, middle_name = ?, last_name = ?, gender = ?, birth_date = ?, password_hash = ?, blood_type = ?, weight = ?, contact_number = ? WHERE user_id = ?";
 

@@ -86,6 +86,17 @@ public class MonetaryDonationService {
         }
     }
 
+    public void displayTotalFundsRaised() {
+        try {
+            double totalFundsRaised = monetaryDonationDao.getTotalFundsRaised();
+            System.out.println("\n--- Total Funds Raised Report ---");
+            System.out.println("Total Funds Raised: PHP" + totalFundsRaised);
+
+        } catch (Exception e) {
+            System.err.println("Error generating report: " + e.getMessage()); // Or use a logger
+        }
+    }
+
     public boolean deleteMonetaryDonation(int donationId) {
         return monetaryDonationDao.deleteDonation(donationId);
     }

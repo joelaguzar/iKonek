@@ -8,7 +8,9 @@ import java.io.IOException;
 import java.sql.*;
 import java.time.ZoneId;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class BloodDonationDao {
     private final String INSERT_BLOOD_DONATION = "INSERT INTO BloodDonations (user_id, hospital_id, donation_date, status, failure_reason) VALUES (?, ?, ?, ?, ?)";
@@ -82,7 +84,7 @@ public class BloodDonationDao {
 
             pstmt.setInt(1, bloodDonation.getDonorId());
             pstmt.setInt(2, bloodDonation.getHospitalId());
-            pstmt.setTimestamp(3, Timestamp.valueOf(String.valueOf(bloodDonation.getDonationDate().atZone(ZoneId.systemDefault()).toInstant())));
+            pstmt.setTimestamp(3, Timestamp.from(bloodDonation.getDonationDate().atZone(ZoneId.systemDefault()).toInstant()));
             pstmt.setString(4, bloodDonation.getStatus());
             pstmt.setString(5, bloodDonation.getFailureReason());
             pstmt.setInt(6, bloodDonation.getDonationId());
@@ -136,6 +138,23 @@ public class BloodDonationDao {
             System.err.println("Error retrieving blood donations by user ID: " + e.getMessage());
         }
         return donations;
+    }
+
+    public Map<String, Integer> getDonationCountsByBloodType() {
+        Map<String, Integer> bloodTypeCounts = new HashMap<>();
+        String query = "SELECT u.blood_type, COUNT(*) AS count FROM BloodDonations bd JOIN Users u ON bd.user_id = u.user_id GROUP BY u.blood_type"; // Corrected query
+        try (Connection conn = DatabaseConnection.getConnection();
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(query)) {
+
+            while (rs.next()) {
+                bloodTypeCounts.put(rs.getString("blood_type"), rs.getInt("count"));
+            }
+
+        } catch (SQLException | IOException | ClassNotFoundException e) {
+            System.err.println("Error getting donation counts by blood type: " + e.getMessage()); // Or use a logger
+        }
+        return bloodTypeCounts;
     }
 
     public List<BloodDonation> getPendingBloodDonationsByUserId(int userId) {

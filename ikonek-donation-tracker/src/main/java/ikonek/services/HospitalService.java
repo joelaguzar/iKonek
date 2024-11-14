@@ -29,11 +29,6 @@ public class HospitalService {
     }
 
     public boolean updateHospital(Hospital hospital) {
-        if (!InputValidator.isValidName(hospital.getName()) || !InputValidator.isValidName(hospital.getCity()) ||
-                !InputValidator.isValidName(hospital.getProvince()) || !InputValidator.isValidContactNumber(hospital.getContactNumber())) {
-            System.err.println("Invalid input. Please check your details.");
-            return false;
-        }
         return hospitalDao.updateHospital(hospital);
     }
 

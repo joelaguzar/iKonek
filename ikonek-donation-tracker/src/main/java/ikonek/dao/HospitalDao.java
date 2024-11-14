@@ -37,7 +37,6 @@ public class HospitalDao {
         return -1; // Return -1 on failure
     }
 
-
     public List<Hospital> getAllHospitals() {
         List<Hospital> hospitals = new ArrayList<>();
         try (Connection conn = DatabaseConnection.getConnection();
@@ -78,15 +77,14 @@ public class HospitalDao {
             pstmt.setString(2, hospital.getCity());
             pstmt.setString(3, hospital.getProvince());
             pstmt.setString(4, hospital.getContactNumber());
-            pstmt.setInt(5, hospital.getHospitalId()); //Where clause parameter
+            pstmt.setInt(5, hospital.getHospitalId());
 
-            return pstmt.executeUpdate() > 0;
+            int rowsUpdated = pstmt.executeUpdate();
+            return rowsUpdated > 0;
 
-        } catch (SQLException e) {
-            System.err.println("Error updating hospital: " + e.getMessage());
+        } catch (SQLException | IOException | ClassNotFoundException e) {
+            System.err.println("Error updating hospital: " + e.getMessage()); // Or use a logger
             return false;
-        } catch (IOException | ClassNotFoundException e) {
-            throw new RuntimeException(e);
         }
     }
 
@@ -105,12 +103,13 @@ public class HospitalDao {
     }
 
     private Hospital mapHospitalFromResultSet(ResultSet rs) throws SQLException {
-        return new Hospital(
+        Hospital hospital = new Hospital(
                 rs.getString("name"),
                 rs.getString("city"),
                 rs.getString("province"),
                 rs.getString("contact_number")
         );
-
+        hospital.setHospitalId(rs.getInt("hospital_id")); // Set the hospitalId
+        return hospital;
     }
 }

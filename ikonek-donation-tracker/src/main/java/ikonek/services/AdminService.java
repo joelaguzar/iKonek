@@ -1,18 +1,26 @@
 package ikonek.services;
 
 import ikonek.dao.AdminDao;
+import ikonek.dao.UserDao;
+import ikonek.exceptions.AdminServiceException;
 import ikonek.models.Admin;
+import ikonek.models.User;
 import ikonek.utils.InputValidator;
 import ikonek.utils.PasswordHasher;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class AdminService {
 
     private final AdminDao adminDao;
     private final PasswordHasher passwordHasher;
+    private final UserDao userDao;
 
-    public AdminService(AdminDao adminDao, PasswordHasher passwordHasher) {
+    public AdminService(AdminDao adminDao, PasswordHasher passwordHasher, UserDao userDao) {
         this.adminDao = adminDao;
         this.passwordHasher = passwordHasher;
+        this.userDao = userDao;
     }
 
     public Admin registerAdmin(String firstName, String middleName, String lastName, String email, String password, String contactNumber, String username) {
@@ -42,17 +50,33 @@ public class AdminService {
     }
 
     public Admin loginAdmin(String username, String password) {
-        if (username == null || username.isBlank() || password == null || password.isBlank()) {
-            System.err.println("Invalid input. Please check your credentials.");
-            return null;
+        Admin admin = adminDao.getAdminByUsername(username);
+        if (admin == null) {
+            throw new AdminServiceException("Login failed. Invalid username.");
         }
 
-        Admin admin = adminDao.getAdminByUsername(username);
-        if (admin != null && passwordHasher.verifyPassword(password, admin.getPasswordHash())) {
-            return admin;
+        String storedHashedPassword = admin.getPasswordHash();
+
+        if (storedHashedPassword == null) {
+            throw new AdminServiceException("Error: Hashed password not found for this user.");
         }
-        System.err.println("Login failed. Invalid username or password.");
-        return null;
+
+        boolean passwordMatch = passwordHasher.verifyPassword(password, storedHashedPassword);
+
+        if (passwordMatch) {
+            return admin;
+        } else {
+            return null;
+        }
+    }
+
+    public List<User> getAllUsers() {
+        try {
+            return userDao.getAllUsers();
+        } catch (Exception e) {
+            System.err.println("Error retrieving users: " + e.getMessage()); // Or use a logger
+            return new ArrayList<>(); // Return an empty list to avoid null pointer exceptions
+        }
     }
 
     public boolean updateAdmin(Admin admin) {

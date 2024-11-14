@@ -34,6 +34,12 @@ public class User {
 
     // admin inherits common user fields
     public User(String firstName, String middleName, String lastName, String email, String passwordHash, String contactNumber) {
+        this.firstName = firstName;
+        this.middleName = middleName;
+        this.lastName = lastName;
+        this.email = email;
+        this.passwordHash = passwordHash;
+        this.contactNumber = contactNumber;
     }
 
 

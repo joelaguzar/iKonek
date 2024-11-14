@@ -93,6 +93,20 @@ public class MonetaryDonationDao {
         }
     }
 
+    public double getTotalFundsRaised() {
+        try (Connection conn = DatabaseConnection.getConnection();
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery("SELECT SUM(donation_amount) AS total_funds_raised FROM Donations")) {
+
+            if (rs.next()) {
+                return rs.getDouble("total_funds_raised");
+            }
+        } catch (SQLException | IOException | ClassNotFoundException e) {
+            System.err.println("Error getting total funds raised: " + e.getMessage()); // Or use a logger
+        }
+        return 0; // Return 0 if an error occurs
+    }
+
     public List<MonetaryDonation> getMonetaryDonationsByUserId(int userId) {
         List<MonetaryDonation> donations = new ArrayList<>();
         try (Connection conn = DatabaseConnection.getConnection();

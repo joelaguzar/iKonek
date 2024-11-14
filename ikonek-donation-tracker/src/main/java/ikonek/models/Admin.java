@@ -6,11 +6,16 @@ public class Admin extends User {
 
     // Constructor
     public Admin(String firstName, String middleName, String lastName, String email, String passwordHash, String contactNumber, String username) {
-        super(firstName, middleName, lastName, email, passwordHash, contactNumber); // Inherits common user fields
+        super(firstName, middleName, lastName, email, passwordHash, contactNumber);
         this.username = username;
     }
 
     // Getters and Setters
+
+    public String getPasswordHash() {
+        return super.getPasswordHash();
+    }
+
     public int getAdminId() {
         return adminId;
     }

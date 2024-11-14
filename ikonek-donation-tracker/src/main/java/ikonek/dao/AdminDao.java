@@ -40,16 +40,17 @@ public class AdminDao {
 
     public Admin getAdminByUsername(String username) {
         try (Connection conn = DatabaseConnection.getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(SELECT_ADMIN_BY_USERNAME);
-             ResultSet rs = pstmt.executeQuery()) {
+             PreparedStatement pstmt = conn.prepareStatement(SELECT_ADMIN_BY_USERNAME)) {
 
-            pstmt.setString(1, username);
-
-            if (rs.next()) {
-                return mapAdminFromResultSet(rs);
+            pstmt.setString(1, username); // Set the username parameter
+            try (ResultSet rs = pstmt.executeQuery()) {
+                if (rs.next()) {
+                    return mapAdminFromResultSet(rs);
+                }
             }
-        } catch (SQLException | IOException | ClassNotFoundException e) {
-            System.err.println("Error getting admin by username: " + e.getMessage());
+        } catch (SQLException | IOException | ClassNotFoundException  e) {
+            System.err.println("Error getting admin by username: " + e.getMessage()); // Or use a logger
+            return null;
         }
         return null;
     }
@@ -68,6 +69,8 @@ public class AdminDao {
         }
         return null;
     }
+
+
 
     public boolean updateAdmin(Admin admin) {
 
@@ -104,15 +107,15 @@ public class AdminDao {
     }
 
     private Admin mapAdminFromResultSet(ResultSet rs) throws SQLException {
-        Admin admin = new Admin(
-                rs.getString("first_name"),
-                rs.getString("middle_name"),
-                rs.getString("last_name"),
-                rs.getString("email"),
-                rs.getString("password_hash"),
-                rs.getString("contact_number"),
-                rs.getString("username")
-        );
+        String firstName = rs.getString("first_name");
+        String middleName = rs.getString("middle_name");
+        String lastName = rs.getString("last_name");
+        String email = rs.getString("email");
+        String passwordHash = rs.getString("password_hash");
+        String contactNumber = rs.getString("contact_number");
+        String username = rs.getString("username");
+
+        Admin admin = new Admin(firstName, middleName, lastName, email, passwordHash, contactNumber, username);
         admin.setAdminId(rs.getInt("admin_id"));
         return admin;
     }

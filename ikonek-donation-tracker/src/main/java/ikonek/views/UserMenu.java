@@ -19,75 +19,89 @@ public class UserMenu {
         int choice;
 
         do {
-            // Display header and user info
-            System.out.println("\n=========================");
-            System.out.println("iKonek: Every Drop Counts");
-            System.out.println("Logged in as: " + user.getFirstName() + " " + user.getLastName());
-            System.out.println("=========================");
-            System.out.println("Please select an option from the menu below:");
+            System.out.println("\n===============================");
+            System.out.println("✨ iKonek: Every Drop Counts ✨");
+            System.out.println("   Welcome, " + user.getFirstName() + " " + user.getLastName() + "!");
+            System.out.println("===============================");
+            System.out.println("Please select an option from the menu below to get started:");
 
-            // Display user menu options in a more logical order
-            System.out.println("\n1. View/Update My Profile");
-            System.out.println("2. View My Donation History");
-            System.out.println("3. Schedule a New Blood Donation");
-            System.out.println("4. Cancel a Pending Blood Donation");
-            System.out.println("5. Create a New Fundraising Initiative");
-            System.out.println("6. View My Fundraising Initiatives History");
-            System.out.println("7. Donate to a Fundraising Initiative");
-            System.out.println("8. Logout\n");
+            System.out.println("\n1. 💉 Schedule a New Blood Donation");
+            System.out.println("2. ❌ Cancel a Pending Blood Donation");
+            System.out.println("3. 💰 Donate to a Fundraising Initiative");
+            System.out.println("4. 🎯 Create a New Fundraising Initiative");
+            System.out.println("5. 📊 View My Fundraising Initiatives History");
+            System.out.println("6. 📜 View My Donation History");
+            System.out.println("7. 📝 View/Update My Profile");
+            System.out.println("8. 🚪 Logout\n");
 
             System.out.print("Please enter the number corresponding to your choice: ");
             choice = scanner.nextInt();
-            scanner.nextLine(); // Consume the newline
+            scanner.nextLine();
 
             switch (choice) {
                 case 1:
-                    viewUpdateProfile(user, userService);
-                    break;
-                case 2:
-                    viewDonationHistory(user, bloodDonationService, hospitalService, monetaryDonationService);
-                    break;
-                case 3:
+                    System.out.println("\n💉 Scheduling a new blood donation...");
                     scheduleBloodDonation(user, bloodDonationService, hospitalService, userService);
                     break;
-                case 4:
-                    cancelBloodDonation(user, bloodDonationService);
+                case 2:
+                    System.out.println("\n❌ Cancelling a pending blood donation...");
+                    cancelBloodDonation(user, bloodDonationService, hospitalService);
                     break;
-                case 5:
-                    createFundraisingInitiative(user, fundraiserService);
-                    break;
-                case 6:
-                    viewFundraisingHistory(user, fundraiserService, monetaryDonationService, userService);
-                    break;
-                case 7:
+                case 3:
+                    System.out.println("\n💰 Donating to a fundraising initiative...");
                     donateToFundraisingInitiative(user, fundraiserService, monetaryDonationService, userService, hospitalService);
                     break;
+                case 4:
+                    System.out.println("\n🎯 Creating a new fundraising initiative...");
+                    createFundraisingInitiative(user, fundraiserService);
+                    break;
+                case 5:
+                    System.out.println("\n📊 Viewing your fundraising history...");
+                    viewFundraisingHistory(user, fundraiserService, monetaryDonationService, userService);
+                    break;
+                case 6:
+                    System.out.println("\n📜 Viewing your donation history...");
+                    viewDonationHistory(user, bloodDonationService, hospitalService, monetaryDonationService);
+                    break;
+                case 7:
+                    System.out.println("\n🔧 Accessing your profile...");
+                    viewUpdateProfile(user, userService);
+                    break;
                 case 8:
-                    System.out.println("\nYou have successfully logged out. Thank you for using iKonek!");
+                    System.out.println("\n🚪 You have successfully logged out. Thank you for supporting iKonek! Every drop counts! Every click matters!");
                     break;
                 default:
-                    System.out.println("\n⚠️ Invalid choice! Please enter a valid number from the menu.");
+                    System.out.println("\n⚠️ Oops! That’s not a valid choice. Please enter a number between 1 and 8.");
             }
         } while (choice != 8);
     }
 
-
     public static void loginUser(HospitalService hospitalService, UserService userService, BloodDonationService bloodDonationService, FundraiserService fundraiserService, MonetaryDonationService monetaryDonationService) {
         Scanner scanner = new Scanner(System.in);
         User user = null;
+
+        System.out.println("\nWelcome to iKonek: Every Drop Counts, Every Click Matters!");
+        System.out.println("Please log in to continue supporting life-saving causes.");
+        System.out.println("\nType 'exit' at any time to return to the main menu.\n");
+
         while (user == null) {
             String email;
             String password;
 
             try {
-                System.out.println("\nWelcome to iKonek: Every Drop Counts, Every Click Matters!");
-                System.out.println("Please log in to continue supporting life-saving causes.");
-
                 System.out.print("📧 Email Address: ");
                 email = scanner.nextLine();
+                if (email.equalsIgnoreCase("exit")) {
+                    System.out.println("Returning to the main menu. We hope to see you again soon!");
+                    return;
+                }
 
                 System.out.print("🔒 Password: ");
                 password = scanner.nextLine();
+                if (password.equalsIgnoreCase("exit")) {
+                    System.out.println("Returning to the main menu. We hope to see you again soon!");
+                    return;
+                }
 
                 user = userService.loginUser(email, password);
                 if (user == null) {
@@ -97,15 +111,15 @@ public class UserMenu {
             } catch (UserServiceException e) {
                 System.err.print("❌ " + e.getMessage() + "\nPress Enter to try again or type 'exit' to return to the main menu: ");
                 if (scanner.nextLine().equalsIgnoreCase("exit")) {
-                    break;
+                    System.out.println("Returning to the main menu. We hope to see you again soon!");
+                    return;
                 }
             }
         }
+
         if (user != null) {
             System.out.println("✅ Login successful! Welcome back, " + user.getFirstName() + ".");
             displayUserMenu(user, userService, bloodDonationService, fundraiserService, monetaryDonationService, hospitalService);
-        } else {
-            System.out.println("Returning to the main menu. We hope to see you again soon!");
         }
     }
 
@@ -115,8 +129,7 @@ public class UserMenu {
         User updatedUser = null;
         String updatedPassword = null;
 
-        // Display user profile information
-        System.out.println("\n--- Your Profile ---");
+        System.out.println("\n---------------- Your Profile ----------------");
         System.out.println("First Name        : " + user.getFirstName());
         System.out.println("Middle Name       : " + user.getMiddleName());
         System.out.println("Last Name         : " + user.getLastName());
@@ -127,7 +140,6 @@ public class UserMenu {
         System.out.println("Email             : " + user.getEmail());
         System.out.println("Contact Number    : " + user.getContactNumber());
 
-        // Prompt to update profile
         System.out.print("\nWould you like to update your profile details? (y/n): ");
         String updateChoice = scanner.nextLine();
         if (updateChoice.equalsIgnoreCase("y")) {
@@ -342,31 +354,29 @@ public class UserMenu {
 
     private static void viewDonationHistory(User user, BloodDonationService bloodDonationService, HospitalService hospitalService, MonetaryDonationService monetaryDonationService) {
         try {
-            // Display Blood Donation History
             List<BloodDonation> donations = bloodDonationService.getBloodDonationsByUserId(user.getUserId());
             if (!donations.isEmpty()) {
                 System.out.println("\n💉 --- Your Blood Donation History --- 💉");
-                System.out.print("+----+---------------------+-----------------------+--------+----------------------------------+\n");
-                System.out.printf("| %-2s | %-19s | %-21s | %-6s | %-34s |\n", "No", "Donation Date", "Hospital", "Status", "Failure Reason (if applicable)");
-                System.out.print("+----+---------------------+-----------------------+--------+----------------------------------+\n");
+                System.out.print("+----+---------------------+-----------------------------------+------------------+--------------------------------------------+\n");
+                System.out.printf("| %-2s | %-19s | %-33s | %-16s | %-42s |\n", "No", "Donation Date", "Hospital", "Status", "Failure Reason (if applicable)");
+                System.out.print("+----+---------------------+-----------------------------------+------------------+--------------------------------------------+\n");
 
                 int counter = 1;
                 for (BloodDonation donation : donations) {
                     Hospital hospital = hospitalService.getHospitalById(donation.getHospitalId());
                     String hospitalName = (hospital != null) ? hospital.getName() : "Unknown Hospital";
-                    System.out.printf("| %-2d | %-19s | %-21s | %-6s | %-34s |\n",
+                    System.out.printf("| %-2d | %-19s | %-33s | %-16s | %-42s |\n",
                             counter++,
-                            donation.getDonationDate(),
+                            donation.getDonationDate().format(DateTimeFormatter.ISO_DATE),
                             hospitalName,
                             donation.getStatus(),
                             donation.getFailureReason() != null ? donation.getFailureReason() : "N/A");
                 }
-                System.out.print("+----+---------------------+-----------------------+--------+----------------------------------+\n");
+                System.out.print("+----+---------------------+-----------------------------------+------------------+--------------------------------------------+\n");
             } else {
                 System.out.println("\n💉 You have no blood donation history yet.");
             }
 
-            // Display Monetary Donation History
             FundraisingInitiativeDao fundraiserService = new FundraisingInitiativeDao();
             List<MonetaryDonation> monetaryDonations = monetaryDonationService.getMonetaryDonationByUserId(user.getUserId());
             if (!monetaryDonations.isEmpty()) {
@@ -404,8 +414,12 @@ public class UserMenu {
                 // Cause Input
                 String cause;
                 while (true) {
-                    System.out.print("\n🌟 Please enter the main *cause* for your fundraising initiative: ");
+                    System.out.print("\n🌟 Please enter the main *cause* for your fundraising initiative (or type '0' to cancel): ");
                     cause = scanner.nextLine();
+                    if (cause.equalsIgnoreCase("0")) {
+                        System.out.println("🚪 Exiting the fundraising initiative creation.");
+                        return; // Exit the method
+                    }
                     if (!cause.trim().isEmpty()) break;
                     System.out.println("⚠️ Cause cannot be empty. Kindly provide a valid cause for this initiative.");
                 }
@@ -413,8 +427,12 @@ public class UserMenu {
                 // Short Description Input
                 String shortDescription;
                 while (true) {
-                    System.out.print("\n📝 Provide a *short description* to give more details about this initiative: ");
+                    System.out.print("📝 Provide a *short description* to give more details about this initiative (or type '0' to cancel): ");
                     shortDescription = scanner.nextLine();
+                    if (shortDescription.equalsIgnoreCase("0")) {
+                        System.out.println("🚪 Exiting the fundraising initiative creation.");
+                        return; // Exit the method
+                    }
                     if (!shortDescription.trim().isEmpty()) break;
                     System.out.println("⚠️ Description cannot be empty. Please give a brief summary of the initiative.");
                 }
@@ -422,22 +440,30 @@ public class UserMenu {
                 // Target Amount Input
                 double targetAmount;
                 while (true) {
-                    System.out.print("\n💰 Enter your *target amount* (PHP): ");
+                    System.out.print("💰 Enter your *target amount* (PHP) (or type '0' to cancel): ");
+                    String input = scanner.nextLine();
+                    if (input.equalsIgnoreCase("0")) {
+                        System.out.println("🚪 Exiting the fundraising initiative creation.");
+                        return; // Exit the method
+                    }
                     try {
-                        targetAmount = scanner.nextDouble();
+                        targetAmount = Double.parseDouble(input);
                         if (targetAmount > 0) break;
                         System.out.println("⚠️ Target amount must be a positive value. Please re-enter the amount.");
-                    } catch (InputMismatchException e) {
+                    } catch (NumberFormatException e) {
                         System.out.println("⚠️ Invalid amount. Please enter a valid number for the target amount.");
-                        scanner.nextLine(); // Clear invalid input
                     }
                 }
 
                 // Deadline Input
                 LocalDate deadline;
                 while (true) {
-                    System.out.print("\n📅 Set a *deadline* for your initiative (yyyy-MM-dd): ");
-                    String deadlineString = scanner.next();
+                    System.out.print("📅 Set a *deadline* for your initiative (yyyy-MM-dd) (or type '0' to cancel): ");
+                    String deadlineString = scanner.nextLine();
+                    if (deadlineString.equalsIgnoreCase("0")) {
+                        System.out.println("🚪 Exiting the fundraising initiative creation.");
+                        return; // Exit the method
+                    }
                     try {
                         deadline = LocalDate.parse(deadlineString, DateTimeFormatter.ISO_DATE);
                         if (!deadline.isBefore(LocalDate.now())) break;
@@ -458,12 +484,11 @@ public class UserMenu {
                 }
 
             } catch (Exception e) {
-                System.err.println("❌ Error: " + e.getMessage() + ". You may try again or type 'exit' to quit.");
-                if (scanner.nextLine().equalsIgnoreCase("exit")) {
-                    break;
+                System.err.println("❌ Error: " + e.getMessage() + ". You may try again or type '0' to quit.");
+                if (scanner.nextLine().equalsIgnoreCase("0")) {
+                    System.out.println("🚪 Exiting the fundraising initiative creation.");
+                    break; // Exit the method
                 }
-            } finally {
-                scanner.nextLine(); // Consume remaining newline
             }
         }
     }
@@ -532,7 +557,7 @@ public class UserMenu {
                 scanner.nextLine();
             }
 
-            // Simulate payment processing
+            // payment processing
             System.out.println("\n💳 Processing your donation...");
             System.out.println("✅ Payment successful! Thank you for making a difference.");
 
@@ -550,9 +575,9 @@ public class UserMenu {
             DonationTicketView.displayDonationTicket(donation, hospitalService, userService);
 
             // Refresh the list of initiatives after donation
-            initiatives = fundraiserService.getAllFundraisingInitiatives();
+            //initiatives = fundraiserService.getAllFundraisingInitiatives();
 
-            // Display updated initiatives
+            /* Display updated initiatives
             System.out.println("\n🌟 --- Updated Fundraising Initiatives --- 🌟");
             for (int i = 0; i < initiatives.size(); i++) {
                 FundraisingInitiative initiative = initiatives.get(i);
@@ -560,7 +585,7 @@ public class UserMenu {
                 System.out.println("   🎯 Target Amount: " + initiative.getTargetAmount());
                 System.out.println("   💰 Amount Raised: " + initiative.getAmountReceived());
                 System.out.println("------------------------------------");
-            }
+            }*/
         } catch (MonetaryDonationServiceException | InputMismatchException | NumberFormatException e) {
             System.err.println("⚠️ Error: " + e.getMessage());
         }
@@ -576,60 +601,60 @@ public class UserMenu {
 
             if (initiatives.isEmpty()) {
                 System.out.println("\n🔍 No Fundraising Initiatives Found");
-                System.out.println("You haven't created any fundraising initiatives yet.");
+                System.out.println("🚫 You haven't created any fundraising initiatives yet.");
                 return;
             }
 
-            System.out.println("\n📈 Fundraising Initiatives Overview");
-            System.out.println("Below are the fundraising initiatives you've created. Select an initiative to view donation history.");
+            System.out.println("\n📈 --- Your Fundraising Initiatives ---");
+            System.out.println("Here are the fundraising initiatives you've created. Select an initiative to view its donation history.");
 
             // Display fundraising initiatives and prompt user for input
             for (int i = 0; i < initiatives.size(); i++) {
                 FundraisingInitiative initiative = initiatives.get(i);
                 System.out.println("\n-----------------------------------");
                 System.out.println("Initiative #" + (i + 1));
-                System.out.println("Cause: " + initiative.getCause());
-                System.out.println("Description: " + initiative.getShortDescription());
-                System.out.println("Target Amount: PHP " + initiative.getTargetAmount());
-                System.out.println("Deadline: " + initiative.getDeadline().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
-                System.out.println("Amount Raised: PHP " + initiative.getAmountReceived());
+                System.out.println("🌟 Cause: " + initiative.getCause());
+                System.out.println("📝 Description: " + initiative.getShortDescription());
+                System.out.println("💰 Target Amount: PHP " + initiative.getTargetAmount());
+                System.out.println("⏰ Deadline: " + initiative.getDeadline().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+                System.out.println("📊 Amount Raised: PHP " + initiative.getAmountReceived());
                 System.out.println("-----------------------------------");
             }
 
             int choice;
             while (true) {
-                System.out.print("\nEnter the initiative number to view its donation history (or type '0' to go back): ");
+                System.out.print("\n👉 Enter the initiative number (1-" + initiatives.size() + ") to view its donation history, or type '0' to go back: ");
                 try {
                     choice = scanner.nextInt();
                     if (choice == 0) {
-                        System.out.println("Returning to the main menu.");
+                        System.out.println("🔙 Returning to the main menu...");
                         return;
                     }
                     if (choice >= 1 && choice <= initiatives.size()) {
                         break;
                     } else {
-                        System.out.println("Invalid choice. Please select a number from 1 to " + initiatives.size() + ".");
+                        System.out.println("❌ Invalid choice. Please select a number between 1 and " + initiatives.size() + ".");
                     }
                 } catch (InputMismatchException e) {
-                    System.out.println("Invalid input. Please enter a number.");
-                    scanner.nextLine(); // Clear invalid input
+                    System.out.println("⚠️ Invalid input. Please enter a valid number.");
+                    scanner.nextLine();
                 }
             }
 
             FundraisingInitiative selectedInitiative = initiatives.get(choice - 1);
             System.out.println("\n--- Donation History for \"" + selectedInitiative.getCause() + "\" ---");
 
-            // Retrieve and display monetary donation history for the selected initiative
+            // Display monetary donation history for the selected initiative
             List<MonetaryDonation> donations = monetaryDonationService.getMonetaryDonationsByFundraisingId(selectedInitiative.getFundraisingId());
             if (donations.isEmpty()) {
-                System.out.println("No donations have been made for this initiative yet.");
+                System.out.println("🚫 No donations have been made for this initiative yet.");
             } else {
                 for (MonetaryDonation donation : donations) {
                     User donor = userService.getUserById(donation.getDonorId());
-                    String donorName = (donor != null) ? donor.getFirstName() + " "  + donor.getLastName() : "Anonymous Donor";
-                    System.out.println("    Donor: " + donorName);
-                    System.out.println("    Amount Donated: PHP " + donation.getDonationAmount());
-                    System.out.println("    Date: " + donation.getDonationDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
+                    String donorName = (donor != null) ? donor.getFirstName() + " " + donor.getLastName() : "Anonymous Donor";
+                    System.out.println("\n🌍 Donor: " + donorName);
+                    System.out.println("💵 Amount Donated: PHP " + donation.getDonationAmount());
+                    System.out.println("📅 Date: " + donation.getDonationDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
                     System.out.println("  -----------------------------");
                 }
             }
@@ -638,7 +663,7 @@ public class UserMenu {
         }
     }
 
-    private static void cancelBloodDonation(User user, BloodDonationService bloodDonationService) {
+    private static void cancelBloodDonation(User user, BloodDonationService bloodDonationService, HospitalService hospitalService) {
         Scanner scanner = new Scanner(System.in);
         List<BloodDonation> pendingDonations;
         int choice;
@@ -652,21 +677,34 @@ public class UserMenu {
             }
 
             System.out.println("\n--- Pending Blood Donations ---");
-            System.out.println("Below is a list of your scheduled blood donations. You can cancel a specific donation by selecting its number.\n(Type '0' or 'exit' at any time to go back.)");
+            System.out.println("Below is a list of your scheduled blood donations. You can cancel a specific donation by selecting its number.\n(Type '0' at any time to go back.)\n");
 
             // Display pending donations
             for (int i = 0; i < pendingDonations.size(); i++) {
                 BloodDonation donation = pendingDonations.get(i);
-                System.out.printf("%d. Donation ID: %s, Scheduled Date: %s\n",
+                Hospital hospital = hospitalService.getHospitalById(donation.getHospitalId()); // Get Hospital object
+
+                if (hospital == null) {
+                    System.out.printf("%d. Donation ID: %s\n, Hospital: Unknown\n, Scheduled Date: %s\n",
+                            i + 1,
+                            donation.getDonationId(),
+                            donation.getDonationDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+                    continue;
+                }
+
+                System.out.printf("%d. Donation ID: %s\n  Hospital: %s\n  Address: %s\n  Contact Number: %s\n  Scheduled Date: %s\n",
                         i + 1,
                         donation.getDonationId(),
-                        donation.getDonationDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
+                        hospital.getName(),
+                        hospital.getCity() + ", " + hospital.getProvince(),
+                        hospital.getContactNumber(),
+                        donation.getDonationDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
             }
 
             System.out.print("\nEnter the number of the donation you wish to cancel: ");
             String choiceString = scanner.nextLine().trim();
 
-            if (choiceString.equalsIgnoreCase("exit") || choiceString.equals("0")) {
+            if (choiceString.equalsIgnoreCase("0")) {
                 System.out.println("Returning to the main menu.");
                 return;
             }
@@ -684,7 +722,7 @@ public class UserMenu {
 
             BloodDonation donationToCancel = pendingDonations.get(choice - 1);
             System.out.print("\nAre you sure you want to cancel the donation scheduled on " +
-                    donationToCancel.getDonationDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")) +
+                    donationToCancel.getDonationDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")) +
                     "? (Type 'yes' to confirm or 'no' to go back): ");
             String confirmation = scanner.nextLine().trim();
 

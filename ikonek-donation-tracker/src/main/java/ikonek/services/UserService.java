@@ -82,6 +82,17 @@ public class UserService {
         return null;
     }
 
+    public int getTotalRegisteredUsers() {
+        try{
+            return userDao.getTotalRegisteredUsers();
+
+        }catch(Exception e){
+            System.err.println("Error getting total registered users" + e.getMessage());
+            return -1; //Or throw an exception
+        }
+
+    }
+
     public User updateUser(User user, String password) {
         String hashedPassword = passwordHasher.hashPassword(password);
         user.setPasswordHash(hashedPassword);
