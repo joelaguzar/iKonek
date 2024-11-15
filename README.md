@@ -47,52 +47,52 @@ _A Java-based Non-Profit Donation Tracking System_
 ## 🏗️ Architecture
 
 ### 📂 **Project Structure**
-ikonek-donation-tracker/
-├── src/main/java/ikonek/
-│   ├── models/
-│   │   ├── User.java
-│   │   ├── Donation.java
-│   │   ├── MonetaryDonation.java
-│   │   ├── BloodDonation.java
-│   │   ├── MonetaryDonationImpl.java
-│   │   ├── BloodDonationImpl.java
-│   │   ├── FundraisingInitiative.java
-│   │   ├── Hospital.java
-│   │   └── Admin.java
-│   ├── services/
-│   │   ├── UserService.java
-│   │   ├── AdminService.java
-│   │   ├── BloodDonationService.java
-│   │   ├── MonetaryDonationService.java
-│   │   ├── FundraiserService.java
-│   │   └── HospitalService.java
-│   ├── dao/
-│   │   ├── UserDao.java
-│   │   ├── MonetaryDonationDao.java
-│   │   ├── BloodDonationDao.java
-│   │   ├── FundraisingInitiativeDao.java
-│   │   ├── HospitalDao.java
-│   │   └── AdminDao.java
-│   ├── exceptions/
-│   │   ├── UserServiceException.java
-│   │   ├── AdminServiceException.java
-│   │   ├── HospitalServiceException.java
-│   │   ├── FundraiserServiceException.java
-│   │   ├── MonetaryDonationServiceException.java
-│   │   └── BloodDonationServiceException.java
-│   ├── views/                
-│   │   ├── MainMenu.java
-│   │   ├── UserMenu.java
-│   │   ├── AdminMenu.java
-│   │   └── DonationTicketView.java
-│   ├── utils/
-│   │   ├── DatabaseConnection.java
-│   │   ├── InputValidator.java
-│   │   └── PasswordHasher.java
-│   └── MainApp.java          
-├── src/main/resources/
-│   ├── db.properties
-└── pom.xml 
+1. ikonek-donation-tracker/
+2. ├── src/main/java/ikonek/
+3. │   ├── models/
+4. │   │   ├── User.java
+5. │   │   ├── Donation.java
+6. │   │   ├── MonetaryDonation.java
+7. │   │   ├── BloodDonation.java
+8. │   │   ├── MonetaryDonationImpl.java
+9. │   │   ├── BloodDonationImpl.java
+10. │   │   ├── FundraisingInitiative.java
+11. │   │   ├── Hospital.java
+12. │   │   └── Admin.java
+13. │   ├── services/
+14. │   │   ├── UserService.java
+15. │   │   ├── AdminService.java
+16. │   │   ├── BloodDonationService.java
+17. │   │   ├── MonetaryDonationService.java
+18. │   │   ├── FundraiserService.java
+19. │   │   └── HospitalService.java
+20. │   ├── dao/
+21. │   │   ├── UserDao.java
+22. │   │   ├── MonetaryDonationDao.java
+23. │   │   ├── BloodDonationDao.java
+24. │   │   ├── FundraisingInitiativeDao.java
+25. │   │   ├── HospitalDao.java
+26. │   │   └── AdminDao.java
+27. │   ├── exceptions/
+28. │   │   ├── UserServiceException.java
+29. │   │   ├── AdminServiceException.java
+30. │   │   ├── HospitalServiceException.java
+31. │   │   ├── FundraiserServiceException.java
+32. │   │   ├── MonetaryDonationServiceException.java
+33. │   │   └── BloodDonationServiceException.java
+34. │   ├── views/                
+35. │   │   ├── MainMenu.java
+36. │   │   ├── UserMenu.java
+37. │   │   ├── AdminMenu.java
+38. │   │   └── DonationTicketView.java
+39. │   ├── utils/
+40. │   │   ├── DatabaseConnection.java
+41. │   │   ├── InputValidator.java
+42. │   │   └── PasswordHasher.java
+43. │   └── MainApp.java          
+44. ├── src/main/resources/
+45. │   ├── db.properties
+46. └── pom.xml 
 
 
 ### 🛠️ **Technology Stack**
