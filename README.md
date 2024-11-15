@@ -71,7 +71,7 @@ _A Java-based Non-Profit Donation Tracking System_
 ![Blood Donations Table Schema](https://github.com/joelaguzar/iKonek/blob/main/images/blooddonations_table.png?raw=true)
 
 ### **Fundraising Initiatives Table**
-![Fundraising Initiatives Table Schema](https://github.com/joelaguzar/iKonek/blob/main/images/fundraisinginiatives_table.png?raw=true)
+![Fundraising Initiatives Table Schema](https://github.com/joelaguzar/iKonek/blob/main/images/fundraisinginitiatives_table.png?raw=true)
 
 ### **Donations Table**
 ![Donations Table Schema](https://github.com/joelaguzar/iKonek/blob/main/images/donations_table.png?raw=true)
