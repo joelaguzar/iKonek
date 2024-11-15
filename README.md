@@ -45,36 +45,73 @@ _A Java-based Non-Profit Donation Tracking System_
 
 ---
 
-## 🏗️ Architecture
+## II. iKonek: Implementation of OOP Principles
+
+The **iKonek donation system** is structured using the four core **OOP principles** to ensure code clarity, maintainability, and extensibility:  
+
+### **A. Abstraction**  
+The system employs **abstraction** by defining a `Donation` interface. This interface acts as a **contract**, specifying essential methods common to all donation types. This design promotes flexibility, making it easier to add new donation types in the future without extensive code changes. The `Donation` interface, along with its child interfaces `MonetaryDonation` and `BloodDonation`, clearly defines the required methods for each donation type, enhancing **code organization** and reducing redundancy.  
+
+### **B. Encapsulation**  
+Each class in iKonek enforces **encapsulation** by declaring data fields as `private` and providing controlled access through public getter and setter methods. This approach protects **data integrity** and simplifies **maintenance** by restricting direct manipulation of the internal state. **Data validation** is performed within the setter methods, ensuring that only valid data is stored.  
+
+### **C. Inheritance**  
+**Inheritance** is effectively applied in the `Admin` class, which extends the `User` class. This reflects the **"is-a" relationship**, where an admin *is a* user with elevated privileges. This mechanism promotes **code reuse** and enhances **maintainability**. The `Admin` class adds admin-specific attributes, such as `adminId` and `username`, while reusing common attributes and methods from the `User` class.  
+
+### **D. Polymorphism**  
+**Polymorphism** is implemented through the `processDonation()` method within the `Donation` interface. Concrete implementations of `processDonation()` in `MonetaryDonationImpl` and `BloodDonationImpl` handle the unique processing logic for **monetary** and **blood donations**, respectively. This enables flexible processing of different donation types without requiring explicit type checks. The `DonationService` class utilizes polymorphic method calls to process various donation types, enhancing the system’s **adaptability**.  
+
+---
+
+## 🌍 III. Sustainable Development Goal (SDG) Integration
+
+**iKonek** directly supports **SDG 3: Good Health and Well-being** by ensuring a steady and reliable supply of blood donations, which are essential for saving lives and improving healthcare outcomes. The system makes it easier for Filipinos to donate blood, contributing to emergency care, surgeries, and ongoing treatments. 
+
+Additionally, iKonek’s fundraising feature extends beyond healthcare, enabling support for various causes such as **disaster relief**, **education**, and **community development**. This allows Filipinos to contribute to the well-being of those in need, strengthening both individual and community resilience.
+
+---
+
+## 🏗️ IV. Project Structure and Database Schema
+
+### 🛠️ **Technology Used**
+- **Language**: Java 21
+- **Database**: MySQL 8.0
+- **Database Connector:** MySQL Connector/J 9.1.0
+- **Build Tool:** Maven
 
 ### 📂 **Project Structure**
 ![Project Structure](https://github.com/joelaguzar/iKonek/blob/main/images/project_structure.png?raw=true)
 
-### 🛠️ **Technology Stack**
-- **Language**: Java 21
-- **Database**: MySQL 8.0
+*   **`models`:** This package houses the Java classes representing the core data structures of the application. These classes encapsulate data and provide methods for accessing and manipulating that data. Key classes include `User`, `Admin`, `Hospital`, `FundraisingInitiative`, `MonetaryDonationImpl`, and `BloodDonationImpl`.  These classes adhere to the principles of encapsulation and data integrity.  Interfaces `Donation`, `MonetaryDonation`, and `BloodDonation` are also present in this package.
 
----
-## 📊 Database Schema
+*   **`services`:** This package contains service classes that encapsulate the business logic of the application. Service classes interact with Data Access Objects (DAOs) to perform database operations and implement application-specific rules and workflows.  Key classes include `UserService`, `AdminService`, `HospitalService`, `FundraiserService`, `MonetaryDonationService`, and `BloodDonationService`.
 
-### **Users Table**
+*   **`dao`:** This package houses the Data Access Objects (DAOs) that manage interactions with the MySQL database. Key classes include `UserDao`, `AdminDao`, `HospitalDao`, `FundraisingInitiativeDao`, `MonetaryDonationDao`, and `BloodDonationDao`.
+
+*   **`views`:** This package contains the classes responsible for the console-based user interface (UI).  These classes manage user interactions, display menus, handle user input, and present data to the user in a clear and organized format. Key classes include `MainMenu`, `UserMenu`, `AdminMenu`, and `DonationTicketView`.
+
+*   **`utils`:** This package includes utility classes that provide reusable functionality across multiple parts of the application.  These classes encapsulate common functions to improve code reusability and maintainability.  Key classes include `DatabaseConnection`, `InputValidator`, and `PasswordHasher`.
+
+*   **`exceptions`:** This package contains custom exception classes that are used to handle errors and provide context-specific information about issues arising in different parts of the application. The package includes `UserServiceException.java`, `AdminServiceException.java`, `HospitalServiceException.java`, `FundraiserServiceException.java`, `BloodDonationServiceException.java` and `MonetaryDonationServiceException.java`
+  
+### 📊 Database Schema
+
+#### **Users Table**
 ![Users Table Schema](https://github.com/joelaguzar/iKonek/blob/main/images/users_table.png?raw=true)
 
-
-### **Admins Table**
+#### **Admins Table**
 ![Admins Table Schema](https://github.com/joelaguzar/iKonek/blob/main/images/admins_table.png?raw=true)
 
-
-### **Hospitals Table**
+#### **Hospitals Table**
 ![Hospitals Table Schema](https://github.com/joelaguzar/iKonek/blob/main/images/hospitals_table.png?raw=true)
 
-### **Blood Donations Table**
+#### **Blood Donations Table**
 ![Blood Donations Table Schema](https://github.com/joelaguzar/iKonek/blob/main/images/blooddonations_table.png?raw=true)
 
-### **Fundraising Initiatives Table**
+#### **Fundraising Initiatives Table**
 ![Fundraising Initiatives Table Schema](https://github.com/joelaguzar/iKonek/blob/main/images/fundraisinginitiatives_table.png?raw=true)
 
-### **Donations Table**
+#### **Donations Table**
 ![Donations Table Schema](https://github.com/joelaguzar/iKonek/blob/main/images/donations_table.png?raw=true)
 
 ---
