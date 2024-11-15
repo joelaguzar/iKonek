@@ -7,7 +7,6 @@ import ikonek.utils.InputValidator;
 import ikonek.utils.PasswordHasher;
 
 import java.time.LocalDate;
-import java.time.Period;
 
 public class UserService {
 
@@ -22,7 +21,6 @@ public class UserService {
     public User registerUser(String firstName, String middleName, String lastName, String gender, LocalDate birthDate,
                              String email, String password, String bloodType, double weight, String contactNumber) {
 
-        // Input validation (using InputValidator)
         if (!InputValidator.isValidEmail(email)) {
             throw new UserServiceException("Invalid email format.");
         }
@@ -51,12 +49,12 @@ public class UserService {
             throw new UserServiceException("Invalid contact number.");
         }
 
-        //Check if email already exists
+        //check if email already exists
         if (userDao.getUserByEmail(email) != null) {
             throw new UserServiceException("Email already exists. Please use another email.");
         }
 
-        //Check if password is not empty
+        //check if password is not empty
         if (password == null || password.isEmpty() || password.isBlank()) {
             throw new UserServiceException("Password cannot be empty.");
         }
@@ -85,12 +83,10 @@ public class UserService {
     public int getTotalRegisteredUsers() {
         try{
             return userDao.getTotalRegisteredUsers();
-
         }catch(Exception e){
             System.err.println("Error getting total registered users" + e.getMessage());
-            return -1; //Or throw an exception
+            return -1;
         }
-
     }
 
     public User updateUser(User user, String password) {
@@ -117,9 +113,4 @@ public class UserService {
 
     public boolean deleteUser(int userId) {
         return userDao.deleteUser(userId); }
-
-    public boolean isEligibleForBloodDonation(User user) {
-        int age = Period.between(user.getBirthDate(), LocalDate.now()).getYears();
-        return age >= 16 && age <= 65 && user.getWeight() >= 50;
-    }
 }

@@ -11,7 +11,7 @@ public class DatabaseConnection {
 
     private static Connection connection = null;
 
-    // Load the database connection properties from db.properties file
+    // load the database connection properties from db.properties file
     private static Properties loadProperties() throws IOException {
         Properties properties = new Properties();
         try (InputStream input = DatabaseConnection.class.getClassLoader().getResourceAsStream("db.properties")) {
@@ -23,7 +23,7 @@ public class DatabaseConnection {
         return properties;
     }
 
-    // Establish the database connection using the loaded properties
+    //database connection using the loaded properties
     public static Connection getConnection() throws SQLException, IOException, ClassNotFoundException {
         Properties properties = loadProperties();
         String url = properties.getProperty("db.url");

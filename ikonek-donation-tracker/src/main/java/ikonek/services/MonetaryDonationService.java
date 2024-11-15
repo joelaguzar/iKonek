@@ -5,12 +5,10 @@ import ikonek.dao.UserDao;
 import ikonek.models.FundraisingInitiative;
 import ikonek.dao.FundraisingInitiativeDao;
 import ikonek.models.MonetaryDonation;
-import ikonek.dao.MonetaryDonationDao;
 import ikonek.models.MonetaryDonationImpl;
 import ikonek.exceptions.MonetaryDonationServiceException; // Renamed exception
 import ikonek.models.User;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 public class MonetaryDonationService {
@@ -28,11 +26,10 @@ public class MonetaryDonationService {
     }
 
     public int createMonetaryDonation(int donorId, int fundraisingId, double donationAmount) throws MonetaryDonationServiceException {
-        // Input validation
         if (donationAmount <= 0) {
             throw new MonetaryDonationServiceException("Donation amount must be positive.");
         }
-        // Check if donor and fundraising initiative exist
+        // check if donor and fundraising initiative exist
         User donor = userDao.getUserById(donorId);
         FundraisingInitiative initiative = fundraisingInitiativeDao.getFundraisingInitiativeById(fundraisingId);
 
@@ -50,10 +47,8 @@ public class MonetaryDonationService {
         if (donationId == -1) {
             throw new MonetaryDonationServiceException("Failed to create monetary donation.");
         }
-        //Process donation after creation
-        //processDonation(donation);
 
-        donation.setDonationId(donationId); // Set the donationId here
+        donation.setDonationId(donationId);
         processDonation(donation); // Process the donation here
         return donationId;
     }
@@ -72,7 +67,6 @@ public class MonetaryDonationService {
 
     public boolean updateMonetaryDonation(MonetaryDonation donation) {
         try {
-            // Input validation
             if (donation.getDonationAmount() <= 0){
                 throw new MonetaryDonationServiceException("Donation amount must be positive");
             }
@@ -93,27 +87,27 @@ public class MonetaryDonationService {
             System.out.println("Total Funds Raised: PHP" + totalFundsRaised);
 
         } catch (Exception e) {
-            System.err.println("Error generating report: " + e.getMessage()); // Or use a logger
+            System.err.println("Error generating report: " + e.getMessage());
         }
     }
 
     public boolean deleteMonetaryDonation(int donationId) {
         return monetaryDonationDao.deleteDonation(donationId);
     }
-    //Helper method to process donations, similar to what was in MonetaryDonationImpl
+
     public void processDonation(MonetaryDonation monetaryDonation) {
         try {
-            // 1. Retrieve the FundraisingInitiative
+            // retrieve the FundraisingInitiative
             FundraisingInitiative fundraisingInitiative = fundraiserService.getFundraisingInitiativeById(monetaryDonation.getFundraisingId());
             if (fundraisingInitiative == null) {
                 throw new MonetaryDonationServiceException("Fundraising initiative not found.");
             }
 
-            // 2. Update the fundraising initiative's amount received
+            //update the fundraising initiative's amount received
             double newAmountReceived = fundraisingInitiative.getAmountReceived() + (monetaryDonation.getDonationAmount()/2);
             fundraisingInitiative.setAmountReceived(newAmountReceived);
 
-            // 3. Update the FundraisingInitiative in the database
+            //update the FundraisingInitiative in the database
             fundraiserService.updateFundraisingInitiative(fundraisingInitiative);
 
         } catch (MonetaryDonationServiceException e) {

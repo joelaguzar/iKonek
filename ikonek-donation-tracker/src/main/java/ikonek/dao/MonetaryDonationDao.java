@@ -25,8 +25,7 @@ public class MonetaryDonationDao {
             pstmt.setInt(1, donation.getDonorId());
             pstmt.setInt(2, donation.getFundraisingId());
             pstmt.setDouble(3, donation.getDonationAmount());
-            pstmt.setTimestamp(4, Timestamp.valueOf(donation.getDonationDate())); // Add donation_date parameter
-
+            pstmt.setTimestamp(4, Timestamp.valueOf(donation.getDonationDate()));
 
             int rowsAffected = pstmt.executeUpdate();
             if (rowsAffected > 0) {
@@ -36,7 +35,6 @@ public class MonetaryDonationDao {
                     }
                 }
             }
-
         } catch (SQLException | IOException | ClassNotFoundException e) {
             System.err.println("Error adding donation: " + e.getMessage());
         }
@@ -64,7 +62,6 @@ public class MonetaryDonationDao {
 
         try (Connection conn = DatabaseConnection.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(UPDATE_DONATION)) {
-
 
             pstmt.setInt(1, donation.getDonorId());
             pstmt.setInt(2, donation.getFundraisingId());
@@ -102,9 +99,9 @@ public class MonetaryDonationDao {
                 return rs.getDouble("total_funds_raised");
             }
         } catch (SQLException | IOException | ClassNotFoundException e) {
-            System.err.println("Error getting total funds raised: " + e.getMessage()); // Or use a logger
+            System.err.println("Error getting total funds raised: " + e.getMessage());
         }
-        return 0; // Return 0 if an error occurs
+        return 0;
     }
 
     public List<MonetaryDonation> getMonetaryDonationsByUserId(int userId) {
@@ -112,7 +109,7 @@ public class MonetaryDonationDao {
         try (Connection conn = DatabaseConnection.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(SELECT_DONATIONS_BY_USER_ID)) {
 
-            pstmt.setInt(1, userId); // Set the userId parameter
+            pstmt.setInt(1, userId);
 
             try (ResultSet rs = pstmt.executeQuery()) {
                 while (rs.next()) {
@@ -120,7 +117,7 @@ public class MonetaryDonationDao {
                 }
             }
         } catch (SQLException | IOException | ClassNotFoundException e) {
-            System.err.println("Error retrieving monetary donations by user ID: " + e.getMessage()); // Or use a logger
+            System.err.println("Error retrieving monetary donations by user ID: " + e.getMessage());
         }
         return donations;
     }
@@ -130,14 +127,14 @@ public class MonetaryDonationDao {
         try (Connection conn = DatabaseConnection.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(SELECT_DONATIONS_BY_FUNDRAISING_ID)) {
 
-            pstmt.setInt(1, fundraisingId); // Set the fundraisingId parameter
+            pstmt.setInt(1, fundraisingId);
             try (ResultSet rs = pstmt.executeQuery()) {
                 while (rs.next()) {
                     donations.add(mapMonetaryDonationFromResultSet(rs));
                 }
             }
         } catch (SQLException | IOException | ClassNotFoundException e) {
-            System.err.println("Error retrieving monetary donations by fundraising ID: " + e.getMessage()); // Or use a logger
+            System.err.println("Error retrieving monetary donations by fundraising ID: " + e.getMessage());
         }
         return donations;
     }

@@ -19,8 +19,7 @@ public class InputValidator {
         return matcher.find();
     }
 
-    public static boolean isValidPassword(String password) {
-        // Check for null, empty, or less than 8 characters
+    public static boolean isValidPassword(String password) { // check for null, empty, or less than 8 characters
         return password != null && !password.isBlank() && password.length() >= 8;
     }
 
@@ -32,10 +31,8 @@ public class InputValidator {
         return gender != null && (gender.equalsIgnoreCase("Male") || gender.equalsIgnoreCase("Female") || gender.equalsIgnoreCase("Other"));
     }
 
-
     public static boolean isValidBirthDate(LocalDate birthDate) {
-        return birthDate != null && birthDate.isBefore(LocalDate.now()); // Birth date must be in the past
-
+        return birthDate != null && birthDate.isBefore(LocalDate.now()); // Birthdate must be in the past
     }
 
     public static boolean isValidWeight(double weight) {
@@ -57,10 +54,7 @@ public class InputValidator {
     }
 
     public static boolean isValidContactNumber(String contactNumber) {
-        // Basic example (digits only) - you might need a more complex regex
         return contactNumber != null && contactNumber.matches("[0-9]+");
     }
 
-
-    // You can add more validation methods here as needed
 }

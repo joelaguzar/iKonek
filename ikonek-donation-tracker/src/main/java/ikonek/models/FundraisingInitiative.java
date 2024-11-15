@@ -6,8 +6,8 @@ public class FundraisingInitiative {
     private int fundraisingId;
     private int userId;
     private String cause;
-    private double targetAmount;       // Using double
-    private double amountReceived;    // Using double
+    private double targetAmount;
+    private double amountReceived;
     private String shortDescription;
     private LocalDate deadline;
 
@@ -16,7 +16,7 @@ public class FundraisingInitiative {
         this.userId = userId;
         this.cause = cause;
         this.targetAmount = targetAmount;
-        this.amountReceived = amountReceived; // Update the amountReceived value
+        this.amountReceived = amountReceived;
         this.shortDescription = shortDescription;
         this.deadline = deadline;
     }

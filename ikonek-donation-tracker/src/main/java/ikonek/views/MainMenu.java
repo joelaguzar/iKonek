@@ -30,11 +30,11 @@ public class MainMenu {
 
     public int displayMenu() {
         String ikonekArt =
-                "  III    K   K    OOO    N   N   EEEEE    K   K \n" +
-                        "   I     K  K    O   O   NN  N   E        K  K  \n" +
-                        "   I     KKK     O   O   N K N   EEEE     KKK   \n" +
-                        "   I     K  K    O   O   N  KK   E        K  K  \n" +
-                        "  III    K   K    OOO    N   K   EEEEE    K   K \n";
+                "   II   K   K    OOO    N   N   EEEEE    K   K \n" +
+                        "        K  K    O   O   NN  N   E        K  K  \n" +
+                        "   II   KKK     O   O   N K N   EEEE     KKK   \n" +
+                        "   II   K  K    O   O   N  KK   E        K  K  \n" +
+                        "   II   K   K    OOO    N   K   EEEEE    K   K \n";
 
         System.out.println("\n" + ikonekArt);
         System.out.println("===============================================");

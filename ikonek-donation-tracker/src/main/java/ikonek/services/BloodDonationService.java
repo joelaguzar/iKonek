@@ -61,7 +61,6 @@ public class BloodDonationService {
 
     public boolean updateBloodDonation(BloodDonation bloodDonation) {
         try {
-            // Input validation (you might want to add more checks here)
             if(bloodDonation.getDonationId() <= 0){
                 throw new BloodDonationServiceException("Invalid donationId");
             }
@@ -70,7 +69,6 @@ public class BloodDonationService {
             }
             return bloodDonationDao.updateBloodDonation(bloodDonation);
         } catch (BloodDonationServiceException e) {
-            // Handle the exception, e.g., log the error and return a default value
             System.err.println("Error updating blood donation: " + e.getMessage());
             return false;
         }
@@ -80,10 +78,10 @@ public class BloodDonationService {
         return bloodDonationDao.deleteBloodDonation(donationId);}
 
     public boolean isEligibleForBloodDonation(int userId) throws BloodDonationServiceException {
-        User user = userDao.getUserById(userId);  // Retrieve User object
+        User user = userDao.getUserById(userId);
 
         if (user == null) {
-            throw new BloodDonationServiceException("User not found."); // Or handle appropriately
+            throw new BloodDonationServiceException("User not found.");
         }
         int age = Period.between(user.getBirthDate(), LocalDate.now()).getYears();
         return age >= 18 && age <= 65 && user.getWeight() >= 50;
@@ -91,7 +89,6 @@ public class BloodDonationService {
 
     public void processBloodDonation(BloodDonation donation) {
         try {
-            // 1. Retrieve User and Hospital information (for more detailed checks/updates)
             User user = userDao.getUserById(donation.getDonorId());
             if (user == null) {
                 throw new BloodDonationServiceException("User not found for donation.");
@@ -101,18 +98,15 @@ public class BloodDonationService {
                 throw new BloodDonationServiceException("Hospital not found for donation.");
             }
 
-            // 2. Eligibility Check (using the helper method)
-            if (!isEligibleForBloodDonation(user.getUserId())) { // Pass userId
+            if (!isEligibleForBloodDonation(user.getUserId())) {
                 donation.setStatus("Failed");
-                donation.setFailureReason("Donor not eligible (age, weight, or other criteria)."); // Set specific reason
-                bloodDonationDao.updateBloodDonation(donation); // Update status in the database
-                return; // Exit early if not eligible
+                donation.setFailureReason("Donor not eligible (age, weight, or other criteria).");
+                bloodDonationDao.updateBloodDonation(donation);
+                return;
             }
 
-            // 4. (Optional) Generate Donation Ticket/Certificate (using DonationTicketView):
-
         } catch (BloodDonationServiceException e) {
-            System.err.println("Error processing blood donation: " + e.getMessage()); // Replace with proper logging
+            System.err.println("Error processing blood donation: " + e.getMessage());
         }
     }
 
@@ -125,14 +119,12 @@ public class BloodDonationService {
                 return;
             }
 
-
             System.out.println("\n--- Blood Donation Report by Blood Type ---");
             for (Map.Entry<String, Integer> entry : bloodTypeCounts.entrySet()) {
                 System.out.println(entry.getKey() + ": " + entry.getValue());
             }
-
         } catch (Exception e) {
-            System.err.println("Error generating report: " + e.getMessage()); // Or use a logger
+            System.err.println("Error generating report: " + e.getMessage());
         }
     }
 

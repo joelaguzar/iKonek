@@ -535,7 +535,7 @@ public class UserMenu {
                         System.out.println("⚠️ Invalid choice. Please select a valid initiative number.");
                         continue;
                     }
-                    break; // Valid choice, exit loop
+                    break; // if valid choice, exit loop
                 } catch (NumberFormatException e) {
                     System.out.println("⚠️ Invalid input. Please enter a valid number or type 'cancel' to exit.");
                 }
@@ -573,19 +573,7 @@ public class UserMenu {
             // Process donation and display donation ticket
             monetaryDonationService.processDonation(donation);
             DonationTicketView.displayDonationTicket(donation, hospitalService, userService);
-
-            // Refresh the list of initiatives after donation
-            //initiatives = fundraiserService.getAllFundraisingInitiatives();
-
-            /* Display updated initiatives
-            System.out.println("\n🌟 --- Updated Fundraising Initiatives --- 🌟");
-            for (int i = 0; i < initiatives.size(); i++) {
-                FundraisingInitiative initiative = initiatives.get(i);
-                System.out.println((i + 1) + ". Cause: " + initiative.getCause() + " | " + initiative.getShortDescription());
-                System.out.println("   🎯 Target Amount: " + initiative.getTargetAmount());
-                System.out.println("   💰 Amount Raised: " + initiative.getAmountReceived());
-                System.out.println("------------------------------------");
-            }*/
+            
         } catch (MonetaryDonationServiceException | InputMismatchException | NumberFormatException e) {
             System.err.println("⚠️ Error: " + e.getMessage());
         }

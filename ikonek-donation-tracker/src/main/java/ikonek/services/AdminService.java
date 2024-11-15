@@ -74,8 +74,8 @@ public class AdminService {
         try {
             return userDao.getAllUsers();
         } catch (Exception e) {
-            System.err.println("Error retrieving users: " + e.getMessage()); // Or use a logger
-            return new ArrayList<>(); // Return an empty list to avoid null pointer exceptions
+            System.err.println("Error retrieving users: " + e.getMessage());
+            return new ArrayList<>();
         }
     }
 

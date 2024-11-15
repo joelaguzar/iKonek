@@ -39,7 +39,7 @@ public class UserDao {
                     if (generatedKeys.next()) {
                         int userId = generatedKeys.getInt(1);
                         user.setUserId(userId);
-                        return user; // Return the created User object with userId
+                        return user;
                     }
                 }
             }
@@ -79,11 +79,10 @@ public class UserDao {
                 return rs.getInt(1);
             }
         } catch (SQLException | IOException | ClassNotFoundException e) {
-            System.err.println("Error getting total registered users: " + e.getMessage()); // Or use a logger
+            System.err.println("Error getting total registered users: " + e.getMessage());
 
         }
-        return -1; //Or throw an exception
-
+        return -1;
     }
 
     public User updateUser(User user) {
@@ -105,7 +104,7 @@ public class UserDao {
 
             int rowsUpdated = pstmt.executeUpdate();
             if (rowsUpdated > 0) {
-                return getUserById(user.getUserId()); // Retrieve the updated User object
+                return getUserById(user.getUserId());
             }
         } catch (SQLException | IOException | ClassNotFoundException e) {
             System.err.println("Error updating user: " + e.getMessage());
@@ -134,14 +133,14 @@ public class UserDao {
         try (Connection conn = DatabaseConnection.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(SELECT_USER_BY_ID)) {
 
-            pstmt.setInt(1, userId); // Set the userId parameter
-            try (ResultSet rs = pstmt.executeQuery()) { // ResultSet within try-with-resources
+            pstmt.setInt(1, userId);
+            try (ResultSet rs = pstmt.executeQuery()) {
                 if (rs.next()) {
                     return mapToUser(rs);
                 }
             }
         } catch (SQLException | IOException | ClassNotFoundException e) {
-            System.err.println("Error retrieving user by ID: " + e.getMessage()); // Or use a logger
+            System.err.println("Error retrieving user by ID: " + e.getMessage());
         }
         return null;
     }

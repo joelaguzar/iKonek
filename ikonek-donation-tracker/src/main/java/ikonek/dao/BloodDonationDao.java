@@ -43,7 +43,7 @@ public class BloodDonationDao {
         } catch (SQLException | IOException | ClassNotFoundException e) {
             System.err.println("Error creating blood donation: " + e.getMessage());
         }
-        return -1; // Return -1 on failure
+        return -1; //on failure
     }
 
     public List<BloodDonation> getAllBloodDonations() {
@@ -65,7 +65,7 @@ public class BloodDonationDao {
         try (Connection conn = DatabaseConnection.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(SELECT_BLOOD_DONATION_BY_ID)) {
 
-            pstmt.setInt(1, donationId); // Set the donationId parameter HERE
+            pstmt.setInt(1, donationId); // Set the donationId
 
             try (ResultSet rs = pstmt.executeQuery()) {
                 if (rs.next()) {
@@ -73,7 +73,7 @@ public class BloodDonationDao {
                 }
             }
         } catch (SQLException | IOException | ClassNotFoundException e) {
-            System.err.println("Error retrieving blood donation by ID: " + e.getMessage()); // Or use a logger
+            System.err.println("Error retrieving blood donation by ID: " + e.getMessage());
         }
         return null;
     }
@@ -110,25 +110,12 @@ public class BloodDonationDao {
         }
     }
 
-    private BloodDonation mapBloodDonationFromResultSet(ResultSet rs) throws SQLException {
-        BloodDonationImpl bloodDonation = new BloodDonationImpl(
-                rs.getInt("user_id"),
-                rs.getInt("hospital_id"),
-                rs.getDate("donation_date").toLocalDate()
-        );
-        bloodDonation.setDonationId(rs.getInt("donation_id"));
-        bloodDonation.setStatus(rs.getString("status"));
-        bloodDonation.setFailureReason(rs.getString("failure_reason"));
-
-        return bloodDonation; // Return BloodDonation (interface)
-    }
-
     public List<BloodDonation> getBloodDonationsByUserId(int userId) {
         List<BloodDonation> donations = new ArrayList<>();
         try (Connection conn = DatabaseConnection.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(SELECT_BLOOD_DONATIONS_BY_USER_ID)) {
 
-            pstmt.setInt(1, userId); //Set the parameter for user_id
+            pstmt.setInt(1, userId); //Set user_id
             try (ResultSet rs = pstmt.executeQuery()) {
                 while (rs.next()) {
                     donations.add(mapBloodDonationFromResultSet(rs));
@@ -142,7 +129,7 @@ public class BloodDonationDao {
 
     public Map<String, Integer> getDonationCountsByBloodType() {
         Map<String, Integer> bloodTypeCounts = new HashMap<>();
-        String query = "SELECT u.blood_type, COUNT(*) AS count FROM BloodDonations bd JOIN Users u ON bd.user_id = u.user_id GROUP BY u.blood_type"; // Corrected query
+        String query = "SELECT u.blood_type, COUNT(*) AS count FROM BloodDonations bd JOIN Users u ON bd.user_id = u.user_id GROUP BY u.blood_type";
         try (Connection conn = DatabaseConnection.getConnection();
              Statement stmt = conn.createStatement();
              ResultSet rs = stmt.executeQuery(query)) {
@@ -152,7 +139,7 @@ public class BloodDonationDao {
             }
 
         } catch (SQLException | IOException | ClassNotFoundException e) {
-            System.err.println("Error getting donation counts by blood type: " + e.getMessage()); // Or use a logger
+            System.err.println("Error getting donation counts by blood type: " + e.getMessage());
         }
         return bloodTypeCounts;
     }
@@ -188,5 +175,18 @@ public class BloodDonationDao {
             System.err.println("Error cancelling blood donation: " + e.getMessage()); // Or use a logger
             return false;
         }
+    }
+
+    private BloodDonation mapBloodDonationFromResultSet(ResultSet rs) throws SQLException {
+        BloodDonationImpl bloodDonation = new BloodDonationImpl(
+                rs.getInt("user_id"),
+                rs.getInt("hospital_id"),
+                rs.getDate("donation_date").toLocalDate()
+        );
+        bloodDonation.setDonationId(rs.getInt("donation_id"));
+        bloodDonation.setStatus(rs.getString("status"));
+        bloodDonation.setFailureReason(rs.getString("failure_reason"));
+
+        return bloodDonation; // Return BloodDonation (interface)
     }
 }

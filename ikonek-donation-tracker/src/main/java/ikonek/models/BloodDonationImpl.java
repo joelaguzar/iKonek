@@ -42,7 +42,7 @@ public class BloodDonationImpl implements BloodDonation {
 
     @Override
     public int getDonorId() {  // From Donation interface
-        return userId;        // userId is the donorId for blood donations
+        return userId;  // userId is the donorId for blood donations
     }
 
     @Override
@@ -83,16 +83,12 @@ public class BloodDonationImpl implements BloodDonation {
             if (hospitalService == null) {
                 throw new BloodDonationServiceException("HospitalService not injected.");
             }
-            // 1. Retrieve Hospital information
             Hospital hospital = hospitalService.getHospitalById(hospitalId);
             if (hospital == null) {
                 throw new BloodDonationServiceException("Hospital not found for donation.");
             }
 
-            // 3. Update Donation Status (This will be done by Admin later)
-            // 4. (Optional) Generate Donation Ticket/Certificate
         } catch (BloodDonationServiceException e) {
-            // Handle the exception here
             System.err.println("Error processing blood donation: " + e.getMessage());
         }
     }

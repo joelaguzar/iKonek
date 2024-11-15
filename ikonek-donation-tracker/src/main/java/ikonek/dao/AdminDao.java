@@ -42,14 +42,14 @@ public class AdminDao {
         try (Connection conn = DatabaseConnection.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(SELECT_ADMIN_BY_USERNAME)) {
 
-            pstmt.setString(1, username); // Set the username parameter
+            pstmt.setString(1, username);
             try (ResultSet rs = pstmt.executeQuery()) {
                 if (rs.next()) {
                     return mapAdminFromResultSet(rs);
                 }
             }
         } catch (SQLException | IOException | ClassNotFoundException  e) {
-            System.err.println("Error getting admin by username: " + e.getMessage()); // Or use a logger
+            System.err.println("Error getting admin by username: " + e.getMessage());
             return null;
         }
         return null;
@@ -69,8 +69,6 @@ public class AdminDao {
         }
         return null;
     }
-
-
 
     public boolean updateAdmin(Admin admin) {
 

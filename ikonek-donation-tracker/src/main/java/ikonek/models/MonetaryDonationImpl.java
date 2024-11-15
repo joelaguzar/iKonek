@@ -84,24 +84,18 @@ public class MonetaryDonationImpl implements MonetaryDonation {
         }
 
         try {
-            // 1. Retrieve the FundraisingInitiative from the database
             FundraisingInitiative fundraisingInitiative = fundraiserService.getFundraisingInitiativeById(fundraisingId);
             if (fundraisingInitiative == null) {
                 throw new MonetaryDonationServiceException("Fundraising initiative not found.");
             }
 
-            // 2. Update the fundraising initiative's amount received
             double currentAmountReceived = fundraisingInitiative.getAmountReceived();
             double newAmountReceived = currentAmountReceived + donationAmount;
+
             fundraisingInitiative.setAmountReceived(newAmountReceived);
 
-            // 3. Update the FundraisingInitiative in the database
-//            if (!fundraiserService.updateFundraisingInitiative(fundraisingInitiative)) {
-//                throw new MonetaryDonationServiceException("Failed to update fundraising initiative.");
-//            }
-
         } catch (MonetaryDonationServiceException e) {
-            System.err.println("Error processing monetary donation: " + e.getMessage()); // Or use a logger
+            System.err.println("Error processing monetary donation: " + e.getMessage());
         }
     }
 

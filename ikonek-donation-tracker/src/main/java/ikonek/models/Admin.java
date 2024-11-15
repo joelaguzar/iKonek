@@ -1,8 +1,8 @@
 package ikonek.models;
 
 public class Admin extends User {
-    private int adminId;           // Unique identifier for admin
-    private String username;        // Username for admin login
+    private int adminId;           // unique identifier for admin
+    private String username;        //admin login
 
     // Constructor
     public Admin(String firstName, String middleName, String lastName, String email, String passwordHash, String contactNumber, String username) {
@@ -11,7 +11,6 @@ public class Admin extends User {
     }
 
     // Getters and Setters
-
     public String getPasswordHash() {
         return super.getPasswordHash();
     }
@@ -37,7 +36,7 @@ public class Admin extends User {
         return "Admin{" +
                 "adminId=" + adminId +
                 ", username='" + username + '\'' +
-                ", " + super.toString() +  // Include details from User class
+                ", " + super.toString() +
                 '}';
     }
 }

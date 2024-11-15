@@ -28,13 +28,13 @@ public class HospitalDao {
             pstmt.executeUpdate();
             try (ResultSet generatedKeys = pstmt.getGeneratedKeys()) {
                 if (generatedKeys.next()) {
-                    return generatedKeys.getInt(1); // Return the generated ID
+                    return generatedKeys.getInt(1);
                 }
             }
         } catch (SQLException | IOException | ClassNotFoundException e) {
-            System.err.println("Error creating hospital: " + e.getMessage()); // Or use a logger
+            System.err.println("Error creating hospital: " + e.getMessage());
         }
-        return -1; // Return -1 on failure
+        return -1;
     }
 
     public List<Hospital> getAllHospitals() {
@@ -83,7 +83,7 @@ public class HospitalDao {
             return rowsUpdated > 0;
 
         } catch (SQLException | IOException | ClassNotFoundException e) {
-            System.err.println("Error updating hospital: " + e.getMessage()); // Or use a logger
+            System.err.println("Error updating hospital: " + e.getMessage());
             return false;
         }
     }

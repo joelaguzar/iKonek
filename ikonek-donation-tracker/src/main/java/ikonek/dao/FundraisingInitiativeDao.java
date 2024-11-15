@@ -36,7 +36,7 @@ public class FundraisingInitiativeDao {
         } catch (SQLException | IOException | ClassNotFoundException e) {
             System.err.println("Error creating fundraising initiative: " + e.getMessage());
         }
-        return -1; // Return -1 on failure
+        return -1;
     }
 
     public List<FundraisingInitiative> getAllFundraisingInitiatives() {
@@ -58,15 +58,14 @@ public class FundraisingInitiativeDao {
         try (Connection conn = DatabaseConnection.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(SELECT_FUNDRAISING_BY_ID)) {
 
-            pstmt.setInt(1, fundraisingId); // Set the fundraisingId parameter HERE
+            pstmt.setInt(1, fundraisingId);
             try (ResultSet rs = pstmt.executeQuery()) {
                 if (rs.next()) {
                     return mapFundraisingFromResultSet(rs);
                 }
             }
-
         } catch (SQLException | IOException | ClassNotFoundException e) {
-            System.err.println("Error getting fundraising initiative by ID: " + e.getMessage()); // Or use a logger
+            System.err.println("Error getting fundraising initiative by ID: " + e.getMessage());
         }
         return null;
     }
@@ -81,7 +80,7 @@ public class FundraisingInitiativeDao {
             pstmt.setDouble(4, fundraising.getAmountReceived());
             pstmt.setString(5, fundraising.getShortDescription());
             pstmt.setDate(6, Date.valueOf(fundraising.getDeadline()));
-            pstmt.setInt(7, fundraising.getFundraisingId());  // Where clause
+            pstmt.setInt(7, fundraising.getFundraisingId());
 
             return pstmt.executeUpdate() > 0;
 
@@ -108,19 +107,6 @@ public class FundraisingInitiativeDao {
         }
     }
 
-//    private FundraisingInitiative mapFundraisingFromResultSet(ResultSet rs) throws SQLException {
-//        FundraisingInitiative fundraising = new FundraisingInitiative(
-//                rs.getInt("user_id"),
-//                rs.getString("cause"),
-//                rs.getDouble("target_amount"),
-//                rs.getDouble("amount_received"),
-//                rs.getString("short_description"),
-//                rs.getDate("deadline").toLocalDate()
-//        );
-//        fundraising.setFundraisingId(rs.getInt("fundraising_id")); //Set the id to the model
-//        return fundraising;
-//    }
-
     private FundraisingInitiative mapFundraisingFromResultSet(ResultSet rs) throws SQLException {
         double amountReceived = rs.getDouble("amount_received");
         FundraisingInitiative fundraising = new FundraisingInitiative(
@@ -131,7 +117,7 @@ public class FundraisingInitiativeDao {
                 rs.getString("short_description"),
                 rs.getDate("deadline").toLocalDate()
         );
-        fundraising.setFundraisingId(rs.getInt("fundraising_id")); //Set the id to the model
+        fundraising.setFundraisingId(rs.getInt("fundraising_id"));
         return fundraising;
     }
 }

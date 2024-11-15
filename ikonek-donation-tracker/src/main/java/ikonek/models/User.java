@@ -141,7 +141,7 @@ public class User {
     }
 
     @Override
-    public String toString() { // For easier printing/debugging
+    public String toString() {
         return "User{" +
                 "userId=" + userId +
                 ", firstName='" + firstName + '\'' +
