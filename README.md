@@ -54,4 +54,27 @@ _A Java-based Non-Profit Donation Tracking System_
 - **Database**: MySQL 8.0
 
 ---
+## 📊 Database Schema
+
+### **Users Table**
+![Users Table Schema](https://github.com/joelaguzar/iKonek/blob/main/images/users_table.png?raw=true)
+
+
+### **Admins Table**
+![Admins Table Schema](https://github.com/joelaguzar/iKonek/blob/main/images/admins_table.png?raw=true)
+
+
+### **Hospitals Table**
+![Hospitals Table Schema](https://github.com/joelaguzar/iKonek/blob/main/images/hospitals_table.png?raw=true)
+
+### **Blood Donations Table**
+![Blood Donations Table Schema](https://github.com/joelaguzar/iKonek/blob/main/images/blooddonations_table.png?raw=true)
+
+### **Fundraising Initiatives Table**
+![Fundraising Initiatives Table Schema](https://github.com/joelaguzar/iKonek/blob/main/images/fundraisinginiatives_table.png?raw=true)
+
+### **Donations Table**
+![Donations Table Schema](https://github.com/joelaguzar/iKonek/blob/main/images/donations_table.png?raw=true)
+
+---
 
