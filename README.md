@@ -3,8 +3,9 @@ _A Java-based Non-Profit Donation Tracking System_
 
 ---
 
-## 📖 Overview
-**iKonek** is a Java console application that simplifies the process of blood donations and fundraising. Designed with Object-Oriented Programming (OOP) principles and powered by MySQL, iKonek offers a seamless experience for both users and administrators.
+## 📖 I. Project Overview
+## Overview
+**iKonek** is a *Java-based console application* designed to streamline the management of **blood donations** and **fundraising initiatives** for non-profit organizations. Built using *Object-Oriented Programming (OOP)* principles, it offers a **secure** and **efficient platform** that prioritizes **user-friendliness** and **data integrity**. Users can register, manage profiles, schedule blood donations, and participate in fundraising campaigns, while administrators gain access to *robust tools* for managing hospital data, verifying donations, generating reports, and overseeing user accounts. By leveraging **MySQL** for *persistent data storage*, **iKonek** ensures **scalability** and **reliability**, making it a comprehensive solution for enhancing *community-driven efforts* in blood donation and charitable fundraising.
 
 ---
 
