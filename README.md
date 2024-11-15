@@ -3,8 +3,20 @@ _A Java-based Non-Profit Donation Tracking System_
 
 ---
 
-## 📖 I. Project Overview
-## Overview
+## Table of Contents
+-  [I. Project Overview](#overview)
+-  [II. iKonek: Implementation of OOP Principles](#oop)
+-  [III. Sustainable Development Goal (SDG) Integration](#sdg)
+-  [IV. Project Structure and Database Schema](#struct)
+-  [V. Running the Program](#run)
+-  [VI. Future Enhancements](#future)
+-  [VII. Contributor](#contrib)
+-  [VIII. Course Information](#course)
+
+---
+
+## <a id = "overview">📖 I. Project Overview
+## Introduction
 **iKonek** is a *Java-based console application* designed to streamline the management of **blood donations** and **fundraising initiatives** for non-profit organizations. Built using *Object-Oriented Programming (OOP)* principles, it offers a **secure** and **efficient platform** that prioritizes **user-friendliness** and **data integrity**. Users can register, manage profiles, schedule blood donations, and participate in fundraising campaigns, while administrators gain access to *robust tools* for managing hospital data, verifying donations, generating reports, and overseeing user accounts. By leveraging **MySQL** for *persistent data storage*, **iKonek** ensures **scalability** and **reliability**, making it a comprehensive solution for enhancing *community-driven efforts* in blood donation and charitable fundraising.
 
 ---
@@ -27,7 +39,7 @@ _A Java-based Non-Profit Donation Tracking System_
     - Choose from a list of registered hospitals.
     - Receive a unique donation ticket.
 - **Manage Donations**:  
-  Option to cancel donations 24 hours before the schedule.
+  Option to cancel donations before the schedule.
 
 ### 💰 **Fundraising**
 - **Create Initiatives**:  
@@ -45,7 +57,7 @@ _A Java-based Non-Profit Donation Tracking System_
 
 ---
 
-## II. iKonek: Implementation of OOP Principles
+## <a id = "oop">II. iKonek: Implementation of OOP Principles
 
 The **iKonek donation system** is structured using the four core **OOP principles** to ensure code clarity, maintainability, and extensibility:  
 
@@ -63,7 +75,7 @@ Each class in iKonek enforces **encapsulation** by declaring data fields as `pri
 
 ---
 
-## 🌍 III. Sustainable Development Goal (SDG) Integration
+## <a id = "sdg">🌍 III. Sustainable Development Goal (SDG) Integration
 
 **iKonek** directly supports **SDG 3: Good Health and Well-being** by ensuring a steady and reliable supply of blood donations, which are essential for saving lives and improving healthcare outcomes. The system makes it easier for Filipinos to donate blood, contributing to emergency care, surgeries, and ongoing treatments. 
 
@@ -71,16 +83,31 @@ Additionally, iKonek’s fundraising feature extends beyond healthcare, enabling
 
 ---
 
-## 🏗️ IV. Project Structure and Database Schema
+## <a id = "struct">🏗️ IV. Project Structure and Database Schema
 
 ### 🛠️ **Technology Used**
 - **Language**: Java 21
 - **Database**: MySQL 8.0
 - **Database Connector:** MySQL Connector/J 9.1.0
 - **Build Tool:** Maven
-
+- **IDE:** Intellij IDEA
+- **Version Control:** Git
+  
 ### 📂 **Project Structure**
-![Project Structure](https://github.com/joelaguzar/iKonek/blob/main/images/project_structure.png?raw=true)
+```
+iKonek-Donation-Tracker/
+├── src/main/java/ikonek/
+│   ├── models/         
+│   ├── services/
+│   ├── dao/
+│   ├── views/
+│   ├── exceptions/
+│   ├── utils/
+│   └── MainApp.java
+├── src/main/resources/
+│   └── db.properties
+└── pom.xml
+```
 
 *   **`models`:** This package houses the Java classes representing the core data structures of the application. These classes encapsulate data and provide methods for accessing and manipulating that data. Key classes include `User`, `Admin`, `Hospital`, `FundraisingInitiative`, `MonetaryDonationImpl`, and `BloodDonationImpl`.  These classes adhere to the principles of encapsulation and data integrity.  Interfaces `Donation`, `MonetaryDonation`, and `BloodDonation` are also present in this package.
 
@@ -97,22 +124,139 @@ Additionally, iKonek’s fundraising feature extends beyond healthcare, enabling
 ### 📊 Database Schema
 
 #### **Users Table**
-![Users Table Schema](https://github.com/joelaguzar/iKonek/blob/main/images/users_table.png?raw=true)
+```
+CREATE TABLE Users (
+    user_id INT AUTO_INCREMENT PRIMARY KEY,
+    first_name VARCHAR(50) NOT NULL,
+    middle_name VARCHAR(50),
+    last_name VARCHAR(50) NOT NULL,
+    gender ENUM('Male', 'Female', 'Other') NOT NULL,
+    birth_date DATE NOT NULL,
+    email VARCHAR(100) UNIQUE NOT NULL,
+    password_hash VARCHAR(255) NOT NULL,
+    blood_type ENUM('A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-') NOT NULL,
+    weight DECIMAL(5,2) NOT NULL,
+    contact_number VARCHAR(15) NOT NULL,
+    registration_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+```
 
 #### **Admins Table**
-![Admins Table Schema](https://github.com/joelaguzar/iKonek/blob/main/images/admins_table.png?raw=true)
+```
+CREATE TABLE Admins (
+    admin_id INT AUTO_INCREMENT PRIMARY KEY,
+    username VARCHAR(50) UNIQUE NOT NULL,
+    password_hash VARCHAR(255) NOT NULL,
+    email VARCHAR(100) UNIQUE NOT NULL,
+    first_name VARCHAR(50) NOT NULL,
+    middle_name VARCHAR(50),
+    last_name VARCHAR(50) NOT NULL,
+    contact_number VARCHAR(15) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+```
 
 #### **Hospitals Table**
-![Hospitals Table Schema](https://github.com/joelaguzar/iKonek/blob/main/images/hospitals_table.png?raw=true)
+```
+CREATE TABLE Hospitals (
+    hospital_id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    city VARCHAR(50) NOT NULL,
+    province VARCHAR(50) NOT NULL,
+    contact_number VARCHAR(15) NOT NULL
+);
+```
 
 #### **Blood Donations Table**
-![Blood Donations Table Schema](https://github.com/joelaguzar/iKonek/blob/main/images/blooddonations_table.png?raw=true)
+```
+CREATE TABLE BloodDonations (
+    donation_id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT NOT NULL,
+    hospital_id INT NOT NULL,
+    donation_date DATE NOT NULL,
+    status ENUM('Pending', 'Successful', 'Failed', 'Cancelled') DEFAULT 'Pending',
+    failure_reason VARCHAR(255),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES Users(user_id) ON DELETE CASCADE,
+    FOREIGN KEY (hospital_id) REFERENCES Hospitals(hospital_id) ON DELETE CASCADE
+);
+```
 
 #### **Fundraising Initiatives Table**
-![Fundraising Initiatives Table Schema](https://github.com/joelaguzar/iKonek/blob/main/images/fundraisinginitiatives_table.png?raw=true)
+```
+CREATE TABLE FundraisingInitiatives (
+    fundraiser_id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT NOT NULL,
+    cause VARCHAR(255) NOT NULL,
+    target_amount DECIMAL(10,2) NOT NULL,
+    amount_received DECIMAL(10,2) DEFAULT 0,
+    short_description VARCHAR(500),
+    deadline DATE NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES Users(user_id) ON DELETE CASCADE
+);
+```
 
 #### **Donations Table**
-![Donations Table Schema](https://github.com/joelaguzar/iKonek/blob/main/images/donations_table.png?raw=true)
+```
+CREATE TABLE Donations (
+    donation_id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT NOT NULL,
+    fundraiser_id INT NOT NULL,
+    donation_amount DECIMAL(10,2) NOT NULL,
+    donation_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES Users(user_id) ON DELETE CASCADE,
+    FOREIGN KEY (fundraiser_id) REFERENCES FundraisingInitiatives(fundraiser_id) ON DELETE CASCADE
+);
+```
 
 ---
 
+## <a id = "run">📥 V. Running the Program 
+
+### Prerequisites  
+1. Install **Java Development Kit (JDK) 17** or higher.  
+2. Install **MySQL Database Server 8** or higher.  
+3. Ensure the **MySQL Connector/J** (version 9.1.0) is included in your project's `lib` folder (or manage via Maven).
+
+### Steps
+1. **Clone the Repository:** Clone the project from GitHub:  `git clone https://github.com/joelaguzar/iKonek.git`
+ 
+2. **Database Setup:** Create a MySQL database named "ikonek_db" and use the SQL schema from the Database Schema section. Update `src/main/resources/db.properties` with your database credentials.
+ 
+3. **Build and Run (using Maven):**
+ -   Navigate to the project directory in your terminal.<br/>
+ -   Run `mvn clean install` to build the project.<br/>
+ -   Run `mvn exec:java -Dexec.mainClass="ikonek.MainApp"` to execute the application.<br/>
+
+---
+
+## <a id = "future">🚀 VI. Future Enhancements
+
+Key features for future updates:
+
+#### 🖥️ User Interface
+- Build a responsive interface for enhanced accessibility, ensuring users and admins can interact with the system from any device.
+
+#### 💳 Payment Gateway Integration
+- Integrate with a secure payment gateway for seamless and safe online donations.
+
+#### 📊 Reporting and Analytics
+- Implement advanced reporting and analytics features for admins to monitor donation trends, fundraising progress, and more.
+
+#### 📱 SMS/Email Notification System
+- Add SMS/Email notification capabilities for real-time updates on donation statuses, upcoming donation schedules, and fundraising initiative alerts.
+
+#### 🔒 Enhanced Security Measures
+-  Upgrade the platform with robust security protocols and password hashing algorithm to protect against common vulnerabilities, such as SQL injection and Password hacking.
+
+
+##  <a id = "contrib"> 👷‍ VII. Contributor </a> <br>
+
+| Name | Role | E-mail |
+| --- | --- | --- |
+| <a href = "https://github.com/joelaguzar">Joel Lazernie A. Aguzar</a> | Developer | aguzarjoel07@gmail.com |
+
+## <a id = "course">💙 VIII. Course Information
+- **Course:** CS 211: Object Oriented Programming
+- **Instructor:** Ms. Fatima Marie P. Agdon
