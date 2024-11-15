@@ -1,3 +1,5 @@
+![Logo Animation](https://github.com/joelaguzar/iKonek/blob/main/assets/Logo_animation.gif)
+
 # 🌟 iKonek: Every Drop Counts, Every Click Matters 🌟
 _A Java-based Non-Profit Donation Tracking System_
 
