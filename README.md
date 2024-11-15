@@ -1,3 +1,49 @@
-# iKonek
+# 🌟 iKonek: Every Drop Counts, Every Click Matters 🌟
+_A Java-based Non-Profit Donation Tracking System_
 
-#A Non-Profit Donation Tracking System that enhances blood donations and fundraising in the Philippines, aligning with SDG 3: Good Health and Well-being and SDG 17: Partnerships for the Goals. This user-friendly platform allows individuals to register, manage profiles, and schedule blood donations with built-in eligibility checks, while also creating and tracking fundraising initiatives in real-time. Administrators can efficiently oversee hospital information and donation management, ensuring a streamlined process for all users. By fostering collaboration and raising awareness, iKonek empowers Filipinos to make a meaningful impact in society, proving that every drop counts and every click matters.
+---
+
+## 📖 Overview
+**iKonek** is a Java console application that simplifies the process of blood donations and fundraising. Designed with Object-Oriented Programming (OOP) principles and powered by MySQL, iKonek offers a seamless experience for both users and administrators.
+
+---
+
+## 🎯 Key Features
+
+### 👤 **User Management**
+- **User Registration**:  
+  Secure and streamlined process, capturing key details like name, contact, and blood type.
+- **Profile Management**:  
+  Update profile (except immutable fields like blood type).
+- **Donation & Fundraising History**:
+    - Track blood donation records.
+    - View contributions to fundraising initiatives.
+
+### 🩸 **Blood Donation**
+- **Eligibility Checks**:  
+  Validates age (16–65 years) and weight (≥50 kg).
+- **Scheduling Donations**:
+    - Choose from a list of registered hospitals.
+    - Receive a unique donation ticket.
+- **Manage Donations**:  
+  Option to cancel donations 24 hours before the schedule.
+
+### 💰 **Fundraising**
+- **Create Initiatives**:  
+  Define cause, target amount, deadline, and details.
+- **Donation to Initiatives**:  
+  Users can donate to active campaigns with real-time updates on progress.
+
+### 🔑 **Admin Management**
+- **Hospital Management**:  
+  Add, update, or remove hospital details.
+- **User and Donation Management**:  
+  View user records and update donation statuses (e.g., "Successful" or "Failed").
+- **Reports**:  
+  Generate insights such as donations by blood type or total funds raised.
+
+---
+
+## 🏗️ Architecture
+
+### 📂 **Project Structure**  
