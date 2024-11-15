@@ -80,7 +80,7 @@ Additionally, iKonek’s fundraising feature extends beyond healthcare, enabling
 - **Build Tool:** Maven
 
 ### 📂 **Project Structure**
-![Project Structure](https://github.com/joelaguzar/iKonek/blob/main/images/project_structure.png?raw=true)
+![Project Structure]
 
 *   **`models`:** This package houses the Java classes representing the core data structures of the application. These classes encapsulate data and provide methods for accessing and manipulating that data. Key classes include `User`, `Admin`, `Hospital`, `FundraisingInitiative`, `MonetaryDonationImpl`, and `BloodDonationImpl`.  These classes adhere to the principles of encapsulation and data integrity.  Interfaces `Donation`, `MonetaryDonation`, and `BloodDonation` are also present in this package.
 
