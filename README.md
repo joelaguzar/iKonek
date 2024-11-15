@@ -46,4 +46,141 @@ _A Java-based Non-Profit Donation Tracking System_
 
 ## 🏗️ Architecture
 
-### 📂 **Project Structure**  
+### 📂 **Project Structure**
+ikonek-donation-tracker/
+├── src/main/java/ikonek/
+│   ├── models/
+│   │   ├── User.java
+│   │   ├── Donation.java
+│   │   ├── MonetaryDonation.java
+│   │   ├── BloodDonation.java
+│   │   ├── MonetaryDonationImpl.java
+│   │   ├── BloodDonationImpl.java
+│   │   ├── FundraisingInitiative.java
+│   │   ├── Hospital.java
+│   │   └── Admin.java
+│   ├── services/
+│   │   ├── UserService.java
+│   │   ├── AdminService.java
+│   │   ├── BloodDonationService.java
+│   │   ├── MonetaryDonationService.java
+│   │   ├── FundraiserService.java
+│   │   └── HospitalService.java
+│   ├── dao/
+│   │   ├── UserDao.java
+│   │   ├── MonetaryDonationDao.java
+│   │   ├── BloodDonationDao.java
+│   │   ├── FundraisingInitiativeDao.java
+│   │   ├── HospitalDao.java
+│   │   └── AdminDao.java
+│   ├── exceptions/
+│   │   ├── UserServiceException.java
+│   │   ├── AdminServiceException.java
+│   │   ├── HospitalServiceException.java
+│   │   ├── FundraiserServiceException.java
+│   │   ├── MonetaryDonationServiceException.java
+│   │   └── BloodDonationServiceException.java
+│   ├── views/                
+│   │   ├── MainMenu.java
+│   │   ├── UserMenu.java
+│   │   ├── AdminMenu.java
+│   │   └── DonationTicketView.java
+│   ├── utils/
+│   │   ├── DatabaseConnection.java
+│   │   ├── InputValidator.java
+│   │   └── PasswordHasher.java
+│   └── MainApp.java          
+├── src/main/resources/
+│   ├── db.properties
+└── pom.xml 
+
+
+### 🛠️ **Technology Stack**
+- **Language**: Java 21
+- **Database**: MySQL 8.0
+- 
+
+---
+
+## 📊 Database Schema
+
+### **Users Table**
+CREATE TABLE Users (
+    user_id INT AUTO_INCREMENT PRIMARY KEY,
+    first_name VARCHAR(50) NOT NULL,
+    middle_name VARCHAR(50),
+    last_name VARCHAR(50) NOT NULL,
+    gender ENUM('Male', 'Female', 'Other') NOT NULL,
+    birth_date DATE NOT NULL,
+    email VARCHAR(100) UNIQUE NOT NULL,
+    password_hash VARCHAR(255) NOT NULL,
+    blood_type ENUM('A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-') NOT NULL,
+    weight DECIMAL(5,2) NOT NULL,
+    contact_number VARCHAR(15) NOT NULL,
+    registration_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+
+### **Admins Table**
+CREATE TABLE Admins (
+    admin_id INT AUTO_INCREMENT PRIMARY KEY,
+    username VARCHAR(50) UNIQUE NOT NULL,
+    password_hash VARCHAR(255) NOT NULL,
+    email VARCHAR(100) UNIQUE NOT NULL,
+    first_name VARCHAR(50) NOT NULL,
+    middle_name VARCHAR(50),
+    last_name VARCHAR(50) NOT NULL,
+    contact_number VARCHAR(15) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+
+### **Hospitals Table**
+CREATE TABLE Hospitals (
+    hospital_id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    city VARCHAR(50) NOT NULL,
+    province VARCHAR(50) NOT NULL,
+    contact_number VARCHAR(15) NOT NULL
+);
+
+### **Blood Donations Table**
+CREATE TABLE BloodDonations (
+    donation_id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT NOT NULL,
+    hospital_id INT NOT NULL,
+    donation_date DATE NOT NULL,
+    status ENUM('Pending', 'Successful', 'Failed', 'Cancelled') DEFAULT 'Pending',
+    failure_reason VARCHAR(255),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES Users(user_id) ON DELETE CASCADE,
+    FOREIGN KEY (hospital_id) REFERENCES Hospitals(hospital_id) ON DELETE CASCADE
+);
+
+### **Fundraising Initiatives Table**
+CREATE TABLE FundraisingInitiatives (
+    fundraiser_id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT NOT NULL,
+    cause VARCHAR(255) NOT NULL,
+    target_amount DECIMAL(10,2) NOT NULL,
+    amount_received DECIMAL(10,2) DEFAULT 0,
+    short_description VARCHAR(500),
+    deadline DATE NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES Users(user_id) ON DELETE CASCADE
+);
+
+### **Donations Table**
+CREATE TABLE Donations (
+    donation_id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT NOT NULL,
+    fundraiser_id INT NOT NULL,
+    donation_amount DECIMAL(10,2) NOT NULL,
+    donation_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES Users(user_id) ON DELETE CASCADE,
+    FOREIGN KEY (fundraiser_id) REFERENCES FundraisingInitiatives(fundraiser_id) ON DELETE CASCADE
+);
+
+
+---
+
