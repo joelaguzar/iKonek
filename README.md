@@ -47,7 +47,7 @@ _A Java-based Non-Profit Donation Tracking System_
 ## 🏗️ Architecture
 
 ### 📂 **Project Structure**
-![](C:\Users\Republic of Gamers\Desktop\Java\iKonek\images\project_structure.png "Project Structure")
+![Project Structure](https://github.com/joelaguzar/iKonek/blob/main/images/project_structure.png?raw=true)
 
 ### 🛠️ **Technology Stack**
 - **Language**: Java 21
