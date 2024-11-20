@@ -16,7 +16,7 @@ public class UserMenu {
 
     public static void displayUserMenu(User user, UserService userService, BloodDonationService bloodDonationService, FundraiserService fundraiserService, MonetaryDonationService monetaryDonationService, HospitalService hospitalService) {
         Scanner scanner = new Scanner(System.in);
-        int choice;
+        int choice = -1;
 
         do {
             System.out.println("\n===============================");
@@ -35,43 +35,49 @@ public class UserMenu {
             System.out.println("8. 🚪 Logout\n");
 
             System.out.print("Please enter the number corresponding to your choice: ");
-            choice = scanner.nextInt();
-            scanner.nextLine();
 
-            switch (choice) {
-                case 1:
-                    System.out.println("\n💉 Scheduling a new blood donation...");
-                    scheduleBloodDonation(user, bloodDonationService, hospitalService, userService);
-                    break;
-                case 2:
-                    System.out.println("\n❌ Cancelling a pending blood donation...");
-                    cancelBloodDonation(user, bloodDonationService, hospitalService);
-                    break;
-                case 3:
-                    System.out.println("\n💰 Donating to a fundraising initiative...");
-                    donateToFundraisingInitiative(user, fundraiserService, monetaryDonationService, userService, hospitalService);
-                    break;
-                case 4:
-                    System.out.println("\n🎯 Creating a new fundraising initiative...");
-                    createFundraisingInitiative(user, fundraiserService);
-                    break;
-                case 5:
-                    System.out.println("\n📊 Viewing your fundraising history...");
-                    viewFundraisingHistory(user, fundraiserService, monetaryDonationService, userService);
-                    break;
-                case 6:
-                    System.out.println("\n📜 Viewing your donation history...");
-                    viewDonationHistory(user, bloodDonationService, hospitalService, monetaryDonationService);
-                    break;
-                case 7:
-                    System.out.println("\n🔧 Accessing your profile...");
-                    viewUpdateProfile(user, userService);
-                    break;
-                case 8:
-                    System.out.println("\n🚪 You have successfully logged out. Thank you for supporting iKonek! Every drop counts! Every click matters!");
-                    break;
-                default:
-                    System.out.println("\n⚠️ Oops! That’s not a valid choice. Please enter a number between 1 and 8.");
+            try {
+                choice = scanner.nextInt();
+                scanner.nextLine();
+
+                switch (choice) {
+                    case 1:
+                        System.out.println("\n💉 Scheduling a new blood donation...");
+                        scheduleBloodDonation(user, bloodDonationService, hospitalService, userService);
+                        break;
+                    case 2:
+                        System.out.println("\n❌ Cancelling a pending blood donation...");
+                        cancelBloodDonation(user, bloodDonationService, hospitalService);
+                        break;
+                    case 3:
+                        System.out.println("\n💰 Donating to a fundraising initiative...");
+                        donateToFundraisingInitiative(user, fundraiserService, monetaryDonationService, userService, hospitalService);
+                        break;
+                    case 4:
+                        System.out.println("\n🎯 Creating a new fundraising initiative...");
+                        createFundraisingInitiative(user, fundraiserService);
+                        break;
+                    case 5:
+                        System.out.println("\n📊 Viewing your fundraising history...");
+                        viewFundraisingHistory(user, fundraiserService, monetaryDonationService, userService);
+                        break;
+                    case 6:
+                        System.out.println("\n📜 Viewing your donation history...");
+                        viewDonationHistory(user, bloodDonationService, hospitalService, monetaryDonationService);
+                        break;
+                    case 7:
+                        System.out.println("\n🔧 Accessing your profile...");
+                        viewUpdateProfile(user, userService);
+                        break;
+                    case 8:
+                        System.out.println("\n🚪 You have successfully logged out. Thank you for supporting iKonek! Every drop counts! Every click matters!");
+                        break;
+                    default:
+                        System.out.println("\n⚠️ Oops! That’s not a valid choice. Please enter a number between 1 and 8.");
+                }
+            } catch (InputMismatchException e) {
+                System.out.println("\n⚠️ Invalid input! Please enter a valid number between 1 and 8.");
+                scanner.nextLine();
             }
         } while (choice != 8);
     }
@@ -82,14 +88,14 @@ public class UserMenu {
 
         System.out.println("\nWelcome to iKonek: Every Drop Counts, Every Click Matters!");
         System.out.println("Please log in to continue supporting life-saving causes.");
-        System.out.println("\nType 'exit' at any time to return to the main menu.\n");
+        System.out.println("\nType 'exit' at any time to return to the main menu.");
 
         while (user == null) {
             String email;
             String password;
 
             try {
-                System.out.print("📧 Email Address: ");
+                System.out.print("\n📧 Email Address: ");
                 email = scanner.nextLine();
                 if (email.equalsIgnoreCase("exit")) {
                     System.out.println("Returning to the main menu. We hope to see you again soon!");
@@ -109,7 +115,7 @@ public class UserMenu {
                 }
 
             } catch (UserServiceException e) {
-                System.err.print("❌ " + e.getMessage() + "\nPress Enter to try again or type 'exit' to return to the main menu: ");
+                System.err.print("\n❌ " + e.getMessage() + "\nPress Enter to try again or type 'exit' to return to the main menu: ");
                 if (scanner.nextLine().equalsIgnoreCase("exit")) {
                     System.out.println("Returning to the main menu. We hope to see you again soon!");
                     return;
@@ -313,6 +319,8 @@ public class UserMenu {
 
             // 4. Enter Donation Date (Loop until valid date input)
             LocalDate donationDate;
+            LocalDate maxDate = LocalDate.now().plusMonths(3); // allowable donation only 3 months
+
             while (true) {
                 System.out.print("\nPlease enter your preferred donation date (format: YYYY-MM-DD), or type 'cancel' to exit: ");
                 String dateString = scanner.nextLine();
@@ -326,6 +334,8 @@ public class UserMenu {
                     donationDate = LocalDate.parse(dateString, DateTimeFormatter.ISO_DATE);
                     if (donationDate.isBefore(LocalDate.now())) {
                         System.out.println("Oops! That date is in the past. Please select a date in the future.");
+                    } else if (donationDate.isAfter(maxDate)) {
+                        System.out.println("Oops! You can only schedule a donation up to 3 months from today. Please select a valid date.");
                     } else {
                         break;
                     }

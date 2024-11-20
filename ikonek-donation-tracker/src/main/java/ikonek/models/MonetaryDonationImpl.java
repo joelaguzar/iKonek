@@ -1,6 +1,5 @@
 package ikonek.models;
 
-import ikonek.exceptions.FundraiserServiceException;
 import ikonek.exceptions.MonetaryDonationServiceException;
 import ikonek.services.FundraiserService;
 
@@ -12,7 +11,7 @@ public class MonetaryDonationImpl implements MonetaryDonation {
     private int donorId;
     private int fundraisingId;
     private double donationAmount;
-    private LocalDateTime donationDate;
+    private LocalDateTime donationDateTime;
     private FundraiserService fundraiserService;
 
     // Constructor
@@ -20,7 +19,7 @@ public class MonetaryDonationImpl implements MonetaryDonation {
         this.donorId = donorId;
         this.fundraisingId = fundraisingId;
         this.donationAmount = donationAmount;
-        this.donationDate = LocalDateTime.now();
+        this.donationDateTime = LocalDateTime.now();
     }
 
     public void setFundraiserService(FundraiserService fundraiserService) {
@@ -54,7 +53,7 @@ public class MonetaryDonationImpl implements MonetaryDonation {
 
     @Override
     public LocalDateTime getDonationDate() {
-        return donationDate.toLocalDate().atStartOfDay();
+        return donationDateTime;
     }
 
     @Override
@@ -106,7 +105,7 @@ public class MonetaryDonationImpl implements MonetaryDonation {
                 ", donorId=" + donorId +
                 ", fundraisingId=" + fundraisingId +
                 ", donationAmount=" + donationAmount +
-                ", donationDate=" + donationDate +
+                ", donationDate=" + donationDateTime +
                 '}';
     }
 }

@@ -15,7 +15,7 @@ public class User {
     private String bloodType;
     private double weight;
     private String contactNumber;
-    private LocalDate registrationDate;
+    private LocalDateTime registrationDate;
 
     // Constructor
     public User(String firstName, String middleName, String lastName, String gender, LocalDate birthDate, String email, String passwordHash, String bloodType, double weight, String contactNumber) {
@@ -29,7 +29,7 @@ public class User {
         this.bloodType = bloodType;
         this.weight = weight;
         this.contactNumber = contactNumber;
-        this.registrationDate = LocalDate.now(); // Set registration date to current date
+        this.registrationDate = LocalDateTime.now(); // Set registration date to current date
     }
 
     // admin inherits common user fields
@@ -132,12 +132,12 @@ public class User {
         this.contactNumber = contactNumber;
     }
 
-    public LocalDate getRegistrationDate() {  // Getter for registrationDate
+    public LocalDateTime getRegistrationDate() {  // Getter for registrationDate
         return registrationDate;
     }
 
     public void setRegistrationDate(LocalDateTime registrationDate) {
-        this.registrationDate = LocalDate.from(registrationDate);
+        this.registrationDate = registrationDate;
     }
 
     @Override
