@@ -95,36 +95,46 @@ public class MainMenu {
         double weight = 0;
         String contactNumber = null;
 
-        System.out.println("\n--- Welcome to the Registration Portal ---\n");
+        System.out.println("\n--- Welcome to the Registration Portal ---");
 
         while (!registrationSuccessful) {
             try {
                 // Email
                 while (email == null) {
-                    System.out.print("💌 Please enter your email address (or type 'exit' to quit): ");
+                    System.out.print("\n💌 Please enter your email address (or type 'exit' to quit): ");
                     email = scanner.nextLine();
+
+                    // exit the registration process
                     if (email.equalsIgnoreCase("exit")) {
-                        System.out.println("❌ You have exited the registration process. Goodbye!");
+                        System.out.println("\n❌ You have exited the registration process. Goodbye!");
                         return;
                     }
+
+                    // email format is valid
                     if (!InputValidator.isValidEmail(email)) {
+                        System.out.print("");
                         System.err.println("❌ Invalid email format. Please try again.");
                         email = null; // Reset email for retry
-                    } else if (!userService.isUniqueEmail(email)) {
+                    }
+
+                    // email is unique
+                    if (!userService.isUniqueEmail(email)) {
+                        System.out.print("");
                         System.err.println("❌ Email already exists. Please try again with a different email.");
                         email = null; // Reset email for retry
                     }
                 }
 
-                // Password
+        // Password
                 while (password == null) {
-                    System.out.print("🔐 Create a secure password (at least 8 characters, or type 'exit' to quit): ");
+                    System.out.print("\n🔐 Create a secure password (at least 8 characters, or type 'exit' to quit): ");
                     password = scanner.nextLine();
                     if (password.equalsIgnoreCase("exit")) {
-                        System.out.println("❌ You have exited the registration process. Goodbye!");
+                        System.out.println("\n❌ You have exited the registration process. Goodbye!");
                         return;
                     }
                     if (password.isEmpty() || password.isBlank() || password.length() < 8) {
+                        System.out.print("");
                         System.err.println("❌ Password must be at least 8 characters long. Please try again.");
                         password = null; // Reset password for retry
                     }
