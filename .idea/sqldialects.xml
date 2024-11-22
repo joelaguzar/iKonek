@@ -2,6 +2,7 @@
 <project version="4">
   <component name="SqlDialectMappings">
     <file url="file://$PROJECT_DIR$/ikonek-donation-tracker/src/main/java/ikonek/dao/UserDao.java" dialect="GenericSQL" />
+    <file url="file://$PROJECT_DIR$/ikonek-donation-tracker/src/main/resources/init.sql" dialect="MySQL" />
     <file url="PROJECT" dialect="MySQL" />
   </component>
 </project>
