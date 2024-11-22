@@ -29,6 +29,7 @@ CREATE TABLE Admins (
     password_hash VARCHAR(255) NOT NULL,
     email VARCHAR(100) UNIQUE NOT NULL,
 	first_name VARCHAR(50) NOT NULL,
+    middle_name VARCHAR(50),
     last_name VARCHAR(50) NOT NULL,
     contact_number VARCHAR(15), 
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
@@ -87,13 +88,15 @@ INSERT INTO `ikonek_db`.`admins`
 `password_hash`,
 `email`,
 `first_name`,
-`last_name`,
+ `middle_name`,
+ `last_name`,
 `contact_number`)
 VALUES
 ("admin_1", -- username for login: admin_1
 "c1d321ab524056", -- default password for login: admin123
 "ikonek.admin@org.com",
 "Admin",
-"1"
+"",
+ "1",
 "09181701889"); -- contact number for testing only
 
