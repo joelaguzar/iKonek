@@ -207,7 +207,7 @@ CREATE TABLE Donations (
     fundraiser_id INT NOT NULL,
     donation_amount DECIMAL(10,2) NOT NULL,
     donation_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (user_id) REFERENCES Users(user_id) ON DELETE CASCADE,
+    FOREIGN KEY (donor_id) REFERENCES Users(user_id) ON DELETE CASCADE,
     FOREIGN KEY (fundraiser_id) REFERENCES FundraisingInitiatives(fundraiser_id) ON DELETE CASCADE
 );
 ```
@@ -224,9 +224,11 @@ CREATE TABLE Donations (
 ### Steps
 1. **Clone the Repository:** Clone the project from GitHub:  `git clone https://github.com/joelaguzar/iKonek.git`
  
-2. **Database Setup:** Create a MySQL database named "ikonek_db" and use the SQL schema from the Database Schema section. Update `src/main/resources/db.properties` with your database credentials.
+2. **Database Setup:** Create a local account in MySQL, run the `init.sql` in `src/main/resources/`. Update `src/main/resources/db.properties` with your database credentials.
+
+3. **Open and Run (using IDE):** Open your preferred Java IDE. Locate the ikonek.MainApp class in the src/main/java directory, select the MainApp class and click Run.
  
-3. **Build and Run (using Maven):**
+4. **Build and Run (using Maven):**
  -   Navigate to the project directory in your terminal.<br/>
  -   Run `mvn clean install` to build the project.<br/>
  -   Run `mvn exec:java -Dexec.mainClass="ikonek.MainApp"` to execute the application.<br/>
