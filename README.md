@@ -226,7 +226,7 @@ CREATE TABLE Donations (
  
 2. **Database Setup:** Create a local account in MySQL, run the `init.sql` in `src/main/resources/`. Update `src/main/resources/db.properties` with your database credentials.
 
-3. **Open and Run (using IDE):** Open your preferred Java IDE. Locate the ikonek.MainApp class in the `src/main/java/ikonek`, select the `MainApp.java`s and click Run.
+3. **Open and Run (using IDE):** Open your preferred Java IDE, in the `src/main/java/ikonek`, select the `MainApp.java` and click Run.
  
 4. **Build and Run (using Maven):**
  -   Navigate to the project directory in your terminal.<br/>
