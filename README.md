@@ -229,9 +229,9 @@ CREATE TABLE Donations (
 3. **Open and Run (using IDE):** Open your preferred Java IDE, in the `src/main/java/ikonek`, select the `MainApp.java` and click Run.
  
 4. **Build and Run (using Maven):**
- -   Navigate to the project directory in your terminal.<br/>
- -   Run `mvn clean install` to build the project.<br/>
- -   Run `mvn exec:java -Dexec.mainClass="ikonek.MainApp"` to execute the application.<br/>
+     -   Navigate to the project directory in your terminal.<br/>
+     -   Run `mvn clean install` to build the project.<br/>
+     -   Run `mvn exec:java -Dexec.mainClass="ikonek.MainApp"` to execute the application.<br/>
 
 ---
 
