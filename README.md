@@ -107,6 +107,7 @@ iKonek-Donation-Tracker/
 │   ├── utils/
 │   └── MainApp.java
 ├── src/main/resources/
+│   ├── init.sql
 │   └── db.properties
 └── pom.xml
 ```
