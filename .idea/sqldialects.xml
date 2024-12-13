@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="SqlDialectMappings">
+    <file url="file://$PROJECT_DIR$/ikonek-donation-tracker/db/init.sql" dialect="MySQL" />
     <file url="file://$PROJECT_DIR$/ikonek-donation-tracker/src/main/java/ikonek/dao/UserDao.java" dialect="GenericSQL" />
-    <file url="file://$PROJECT_DIR$/ikonek-donation-tracker/src/main/resources/init.sql" dialect="MySQL" />
     <file url="PROJECT" dialect="MySQL" />
   </component>
 </project>

@@ -281,16 +281,16 @@ public class UserMenu {
             System.out.println("Choose a hospital near you for your blood donation appointment:");
 
             // Display hospitals in a table format
-            System.out.printf("+----+------------------------------+----------------+----------------+\n");
-            System.out.printf("| %-2s | %-28s | %-14s | %-14s |\n", "No", "Hospital Name", "City", "Province");
-            System.out.printf("+----+------------------------------+----------------+----------------+\n");
+            System.out.printf("+----+------------------------------------------+----------------+----------------+\n");
+            System.out.printf("| %-2s | %-40s | %-14s | %-14s |\n", "No", "Hospital Name", "City", "Province");
+            System.out.printf("+----+------------------------------------------+----------------+----------------+\n");
 
             for (int i = 0; i < hospitals.size(); i++) {
                 Hospital hospital = hospitals.get(i);
-                System.out.printf("| %-2d | %-28s | %-14s | %-14s |\n", i + 1, hospital.getName(), hospital.getCity(), hospital.getProvince());
+                System.out.printf("| %-2d | %-40s | %-14s | %-14s |\n", i + 1, hospital.getName(), hospital.getCity(), hospital.getProvince());
             }
 
-            System.out.printf("+----+------------------------------+----------------+----------------+\n");
+            System.out.printf("+----+------------------------------------------+----------------+----------------+\n");
 
             // 3. Select Hospital (Loop until valid input)
             int hospitalChoice;

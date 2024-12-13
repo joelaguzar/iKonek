@@ -254,8 +254,8 @@ public class AdminMenu {
                 // Display detailed information for each initiative
                 System.out.printf("%d. Initiative: %s\n", (i + 1), initiative.getCause());
                 System.out.printf("   📝 Description: %s\n", initiative.getShortDescription());
-                System.out.printf("   🎯 Target Amount: %.2f PHP\n", initiative.getTargetAmount());
-                System.out.printf("   💰 Amount Raised: %.2f PHP\n", initiative.getAmountReceived());
+                System.out.printf("   🎯 Target Amount: PHP %.2f\n", initiative.getTargetAmount());
+                System.out.printf("   💰 Amount Raised: PHP %.2f\n", initiative.getAmountReceived());
                 System.out.printf("   📅 Deadline: %s\n", initiative.getDeadline().toString());
                 System.out.printf("   👤 Created By: %s\n", (creator != null ? creator.getFirstName() + " " + creator.getLastName() : "Unknown User"));
                 System.out.println("------------------------------------");
