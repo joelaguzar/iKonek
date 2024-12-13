@@ -92,11 +92,11 @@ INSERT INTO `ikonek_db`.`admins`
  `last_name`,
 `contact_number`)
 VALUES
-("admin_1", -- username for login: admin_1
-"c1d321ab524056", -- default password for login: admin123
-"ikonek.admin@org.com",
-"Admin",
-"",
- "1",
-"09181701889"); -- contact number for testing only
+('admin_1', -- username for login: admin_1
+'c1d321ab524056', -- default password for login: admin123
+'ikonek.admin@org.com',
+'Admin',
+'',
+ '1',
+'09181701889'); -- contact number for testing only
 

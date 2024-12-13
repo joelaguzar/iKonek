@@ -100,3 +100,18 @@ VALUES
  '1',
 '09181701889'); -- contact number for testing only
 
+-- Add default Hospitals to the hospital table
+-- so the hospitals here are just for testing purposes, you can also add hospitals through the admin menu
+INSERT INTO `ikonek_db`.`hospitals`
+(`name`,
+ `city`,
+ `province`,
+ `contact_number`)
+VALUES
+('Batangas Medical Center', 'Batangas City', 'Batangas', '09536404961'),
+('Bauan General Hospital', 'Bauan', 'Batangas', '09078589317'),
+('Cabuyao City Hospital', 'Cabuyao City', 'Laguna', '09491867375'),
+('Ospital ng Maynila Medical Center', 'Manila', 'Metro Manila', '09352843529'),
+('UP-Philippine Genreal Hospital', 'Manila', 'Metro Manila', '09143012506'),
+('East Avenue Medical Center', 'Quezon City', 'Metro Manila', '09414527457')
+
