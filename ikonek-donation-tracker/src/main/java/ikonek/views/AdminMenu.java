@@ -184,7 +184,7 @@ public class AdminMenu {
                 System.out.println((i + 1) + ". Donation ID: " + donation.getDonationId());
                 System.out.println("    Donor Name: " + user.getFirstName() + " " + user.getLastName());
                 System.out.println("    Hospital: " + hospital.getName());
-                System.out.println("    Donation Date: " + donation.getDonationDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
+                System.out.println("    Donation Date: " + donation.getDonationDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
                 System.out.println("    Current Status: " + donation.getStatus());
                 System.out.println("    Failure Reason: " + (donation.getFailureReason() != null ? donation.getFailureReason() : "N/A"));
                 System.out.println("---------------------------------------------------------");

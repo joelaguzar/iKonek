@@ -621,7 +621,7 @@ public class UserMenu {
 
             int choice;
             while (true) {
-                System.out.print("\n👉 Enter the initiative number (1-" + initiatives.size() + ") to view its donation history, or type '0' to go back: ");
+                System.out.print("\n👉 Enter the initiative number to view its donation history, or type '0' to go back: ");
                 try {
                     choice = scanner.nextInt();
                     if (choice == 0) {

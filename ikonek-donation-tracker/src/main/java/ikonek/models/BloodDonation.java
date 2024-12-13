@@ -1,5 +1,7 @@
 package ikonek.models;
 
+import ikonek.exceptions.MonetaryDonationServiceException;
+
 import java.time.LocalDate;
 
 public interface BloodDonation extends Donation {
@@ -13,4 +15,9 @@ public interface BloodDonation extends Donation {
 
     String getFailureReason();
     void setFailureReason(String failureReason);
+
+    @Override
+    default void processDonation() throws MonetaryDonationServiceException {
+
+    }
 }
