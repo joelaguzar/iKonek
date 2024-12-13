@@ -98,6 +98,9 @@ Additionally, iKonek’s fundraising feature extends beyond healthcare, enabling
 ### 📂 **Project Structure**
 ```
 iKonek-Donation-Tracker/
+├── db/
+│   ├── init.sql
+│   └── schema.png
 ├── src/main/java/ikonek/
 │   ├── models/         
 │   ├── services/
@@ -107,7 +110,6 @@ iKonek-Donation-Tracker/
 │   ├── utils/
 │   └── MainApp.java
 ├── src/main/resources/
-│   ├── init.sql
 │   └── db.properties
 └── pom.xml
 ```
@@ -225,7 +227,7 @@ CREATE TABLE Donations (
 ### Steps
 1. **Clone the Repository:** Clone the project from GitHub:  `git clone https://github.com/joelaguzar/iKonek.git`
  
-2. **Database Setup:** Create a local account in MySQL, run the `init.sql` in `src/main/resources/`. Update `src/main/resources/db.properties` with your database credentials.
+2. **Database Setup:** Create a local account in MySQL, run the `init.sql` in `iKonek-Donation-Tracker/db`. Update `src/main/resources/db.properties` with your database credentials.
 
 3. **Open and Run (using IDE):** Open your preferred Java IDE, in the `src/main/java/ikonek`, select the `MainApp.java` and click Run.
  
@@ -262,6 +264,6 @@ Key features for future updates:
 | --- | --- | --- |
 | <a href = "https://github.com/joelaguzar">Joel Lazernie A. Aguzar</a> | Developer | aguzarjoel07@gmail.com |
 
-## <a id = "course">💙 VIII. Course Information
-- **Course:** CS 211: Object Oriented Programming
-- **Instructor:** Ms. Fatima Marie P. Agdon
+## <a id = "course">💙 VIII. Courses Information
+- **Courses:** CS 211: Object Oriented Programming | IT 211: Database Management System
+- **Instructors:** Ms. Fatima Marie P. Agdon | Mr. Owen Patrick Falculan
